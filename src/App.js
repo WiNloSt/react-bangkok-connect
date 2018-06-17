@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import styled, { keyframes } from 'styled-components'
 import logo from './logo.svg'
 
+import firebase from 'firebase/app'
+
 const AppStyle = styled.div`
   text-align: center;
 `
@@ -34,6 +36,17 @@ const Title = styled.h1`
 const Intro = styled.p`
   font-size: large;
 `
+
+// Initialize Firebase
+const config = {
+  apiKey: 'AIzaSyC1PQGh5JGgJtpmt1-dZKY7XPQgR12Xb6w',
+  authDomain: 'reactbkk-connect.firebaseapp.com',
+  databaseURL: 'https://reactbkk-connect.firebaseio.com',
+  projectId: 'reactbkk-connect',
+  storageBucket: 'reactbkk-connect.appspot.com',
+  messagingSenderId: '946641983889'
+}
+firebase.initializeApp(config)
 
 class App extends Component {
   render() {
