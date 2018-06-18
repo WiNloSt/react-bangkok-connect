@@ -30,7 +30,7 @@ class FacebookLoginButton extends Component {
 
   render() {
     return (
-      <button type="button" onClick={this.login}>
+      <button type="button" className="btn btn-primary" onClick={this.login}>
         Facebook Login
       </button>
     )
