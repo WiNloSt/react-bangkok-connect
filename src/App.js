@@ -16,6 +16,7 @@ const Nav = styled.nav`
   > ul {
     display: flex;
     list-style: none;
+    margin: 1em 0;
 
     > li {
       &:not(:first-child) {
