@@ -58,10 +58,6 @@ const Avatar = styled.img`
   border-radius: 100%;
 `
 
-const LogoutButton = styled.button`
-  margin-top: 10px;
-`
-
 class App extends Component {
   state = {
     user: null
@@ -89,8 +85,10 @@ class App extends Component {
       return (
         <div>
           <Avatar src={`${user.photoURL}?height=${avatarHeight}`} />
-          <div>Hi, {user.displayName}</div>
-          <LogoutButton onClick={this.logout}>Log out</LogoutButton>
+          <div className="p-3">Hi, {user.displayName}</div>
+          <button type="button" className="btn btn-light" onClick={this.logout}>
+            Log out
+          </button>
         </div>
       )
     } else {
