@@ -114,7 +114,7 @@ class App extends Component {
           </Nav>
           <Header>
             <Logo src={logo} alt="logo" />
-            <Title>Welcome to React Bangkok Connect</Title>
+            <Title>Welcome to React Bangkok 3.0.0</Title>
             {this.renderUserInfo()}
           </Header>
           <Switch>
