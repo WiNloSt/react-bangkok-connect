@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import styled, { keyframes } from 'styled-components'
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
+import firebase from 'firebase/app'
+
 import logo from './logo.svg'
 import Redirect from 'react-router-dom/Redirect'
+
+import FacebookLoginButton from './components/FacebookLoginButton'
 
 const AppStyle = styled.div`
   text-align: center;
@@ -27,7 +31,6 @@ const Nav = styled.nav`
 
 const Header = styled.header`
   background-color: #222;
-  height: 150px;
   padding: 20px;
   color: white;
 `
@@ -50,7 +53,51 @@ const Title = styled.h1`
   font-size: 1.5em;
 `
 
+const Avatar = styled.img`
+  height: 100px;
+  border-radius: 100%;
+`
+
+const LogoutButton = styled.button`
+  margin-top: 10px;
+`
+
 class App extends Component {
+  state = {
+    user: null
+  }
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState({ user })
+      } else {
+        this.setState({ user: null })
+      }
+    })
+  }
+
+  logout = async () => {
+    firebase.auth().signOut()
+  }
+
+  renderUserInfo() {
+    const { user } = this.state
+    const avatarHeight = 100
+
+    if (user) {
+      return (
+        <div>
+          <Avatar src={`${user.photoURL}?height=${avatarHeight}`} />
+          <div>Hi, {user.displayName}</div>
+          <LogoutButton onClick={this.logout}>Log out</LogoutButton>
+        </div>
+      )
+    } else {
+      return <FacebookLoginButton />
+    }
+  }
+
   render() {
     return (
       <Router>
@@ -67,7 +114,8 @@ class App extends Component {
           </Nav>
           <Header>
             <Logo src={logo} alt="logo" />
-            <Title>Welcome to React</Title>
+            <Title>Welcome to React Bangkok 3.0.0</Title>
+            {this.renderUserInfo()}
           </Header>
           <Switch>
             <Redirect from="/" exact to="/boards" />
