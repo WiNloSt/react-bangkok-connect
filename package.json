@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "bluebird": "^3.5.1",
+    "axios": "^0.18.0",
     "bootstrap": "4.0.0-beta.3",
     "firebase": "^5.0.4",
     "ramda": "^0.25.0",
