@@ -7,6 +7,8 @@ import logo from './logo.svg'
 import Redirect from 'react-router-dom/Redirect'
 
 import FacebookLoginButton from './components/FacebookLoginButton'
+import { Quests } from './components/Quests'
+import { createOtpForUserIfNotExist, setUserData } from './logic/login'
 
 const AppStyle = styled.div`
   text-align: center;
@@ -68,6 +70,8 @@ class App extends Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.setState({ user })
+        setUserData(user)
+        createOtpForUserIfNotExist(user)
       } else {
         this.setState({ user: null })
       }
@@ -121,9 +125,7 @@ class App extends Component {
             <Route path="/boards">
               <h1>Boards</h1>
             </Route>
-            <Route path="/quests">
-              <h1>Quests</h1>
-            </Route>
+            <Route path="/quests" component={Quests} />
           </Switch>
         </AppStyle>
       </Router>
