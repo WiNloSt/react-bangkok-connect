@@ -6,6 +6,7 @@ import firebase from 'firebase/app'
 import logo from './logo.svg'
 import Redirect from 'react-router-dom/Redirect'
 
+import Board from './components/Board'
 import FacebookLoginButton from './components/FacebookLoginButton'
 import { Quests } from './components/Quests'
 import { createOtpForUserIfNotExist, setUserData } from './logic/login'
@@ -110,7 +111,7 @@ class App extends Component {
             <Nav>
               <ul>
                 <li>
-                  <Link to="/boards">Boards</Link>
+                  <Link to="/posts">Board</Link>
                 </li>
                 <li>
                   <Link to="/quests">Quests</Link>
@@ -123,10 +124,8 @@ class App extends Component {
               {this.renderUserInfo()}
             </Header>
             <Switch>
-              <Redirect from="/" exact to="/boards" />
-              <Route path="/boards">
-                <h1>Boards</h1>
-              </Route>
+              <Redirect from="/" exact to="/posts" />
+              <Route path="/posts" component={Board} />
               <Route path="/quests" component={Quests} />
             </Switch>
           </AppStyle>
