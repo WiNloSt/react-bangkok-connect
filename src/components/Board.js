@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link, Route, Switch } from 'react-router-dom'
 
 import PostCreate from './PostCreate'
+import PostList from './PostList'
 
 class Board extends Component {
   render() {
@@ -17,6 +18,7 @@ class Board extends Component {
         </div>
 
         <Switch>
+          <Route exact path="/posts" component={PostList} />
           <Route exact path="/posts/create" component={PostCreate} />
         </Switch>
       </div>

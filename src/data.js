@@ -21,3 +21,15 @@ export const setOtp = (otp, data = {}) => {
 }
 
 export const createPost = post => firestore.collection('posts').add(post)
+
+function getDataFromSnapshotQuery(snapshot) {
+  return snapshot.docs.map(doc => Object.assign({ id: doc.id }, doc.data()))
+}
+
+export const getPosts = () =>
+  firestore
+    .collection('posts')
+    .get()
+    .then(
+      snapshot => (snapshot.empty ? null : getDataFromSnapshotQuery(snapshot))
+    )
