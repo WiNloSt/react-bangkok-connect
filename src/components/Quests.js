@@ -1,18 +1,13 @@
 import React from 'react'
 import { getUser } from '../data'
-import { StoreConsumer } from '../store'
+import { StoreConsumer, actions } from '../store'
 export class Quests extends React.Component {
-  state = {
-    otp: null
-  }
-
   render() {
-    const { otp } = this.state
     return (
       <StoreConsumer>
-        {({ user }) => {
-          if (user) {
-            getUser(user.uid).then(user => this.setState({ otp: user.otp }))
+        {({ otp, user, dispatch }) => {
+          if (user && !otp) {
+            getUser(user.uid).then(user => dispatch(actions.setOtp(user.otp)))
           }
           return (
             <React.Fragment>
