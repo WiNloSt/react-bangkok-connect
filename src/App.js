@@ -7,6 +7,9 @@ import logo from './logo.svg'
 import Redirect from 'react-router-dom/Redirect'
 
 import FacebookLoginButton from './components/FacebookLoginButton'
+import { Quests } from './components/Quests'
+import { createOtpForUserIfNotExist, setUserData } from './logic/login'
+import { StoreProvider } from './store'
 
 const AppStyle = styled.div`
   text-align: center;
@@ -68,6 +71,8 @@ class App extends Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.setState({ user })
+        setUserData(user)
+        createOtpForUserIfNotExist(user)
       } else {
         this.setState({ user: null })
       }
@@ -84,13 +89,13 @@ class App extends Component {
 
     if (user) {
       return (
-        <div>
+        <React.Fragment>
           <Avatar src={`${user.photoURL}?height=${avatarHeight}`} />
           <div className="p-3">Hi, {user.displayName}</div>
           <button type="button" className="btn btn-light" onClick={this.logout}>
             Log out
           </button>
-        </div>
+        </React.Fragment>
       )
     } else {
       return <FacebookLoginButton />
@@ -99,34 +104,34 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
-        <AppStyle>
-          <Nav>
-            <ul>
-              <li>
-                <Link to="/boards">Boards</Link>
-              </li>
-              <li>
-                <Link to="/quests">Quests</Link>
-              </li>
-            </ul>
-          </Nav>
-          <Header>
-            <Logo src={logo} alt="logo" />
-            <Title>Welcome to React Bangkok 3.0.0</Title>
-            {this.renderUserInfo()}
-          </Header>
-          <Switch>
-            <Redirect from="/" exact to="/boards" />
-            <Route path="/boards">
-              <h1>Boards</h1>
-            </Route>
-            <Route path="/quests">
-              <h1>Quests</h1>
-            </Route>
-          </Switch>
-        </AppStyle>
-      </Router>
+      <StoreProvider user={this.state.user}>
+        <Router>
+          <AppStyle>
+            <Nav>
+              <ul>
+                <li>
+                  <Link to="/boards">Boards</Link>
+                </li>
+                <li>
+                  <Link to="/quests">Quests</Link>
+                </li>
+              </ul>
+            </Nav>
+            <Header>
+              <Logo src={logo} alt="logo" />
+              <Title>Welcome to React Bangkok 3.0.0</Title>
+              {this.renderUserInfo()}
+            </Header>
+            <Switch>
+              <Redirect from="/" exact to="/boards" />
+              <Route path="/boards">
+                <h1>Boards</h1>
+              </Route>
+              <Route path="/quests" component={Quests} />
+            </Switch>
+          </AppStyle>
+        </Router>
+      </StoreProvider>
     )
   }
 }
