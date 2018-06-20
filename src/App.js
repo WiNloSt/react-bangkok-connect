@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled, { keyframes, injectGlobal } from 'styled-components'
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import firebase from 'firebase/app'
+import Promise from 'bluebird'
 
 import logo from './logo.svg'
 import Redirect from 'react-router-dom/Redirect'
@@ -78,10 +79,19 @@ class App extends Component {
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
+    const userPromise = new Promise(resolve => {
+      firebase.auth().onAuthStateChanged(user => {
+        resolve(user)
+      })
+    })
+
+    Promise.all([userPromise, Promise.delay(500)]).then(([user]) => {
       this.setState({
         loading: false
       })
+    })
+
+    firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.handleLoggedIn(user)
       } else {
