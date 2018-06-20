@@ -19,3 +19,15 @@ export const getOtp = otp => {
 export const setOtp = (otp, data = {}) => {
   firestore.doc(`otps/${otp}`).set(data, { merge: true })
 }
+
+function getDataFromSnapshotQuery(snapshot) {
+  return snapshot.docs.map(doc => Object.assign({ id: doc.id }, doc.data()))
+}
+
+export const getFriends = uid =>
+  firestore
+    .collection(`users/${uid}/friends`)
+    .get()
+    .then(
+      snapshot => (snapshot.empty ? null : getDataFromSnapshotQuery(snapshot))
+    )
