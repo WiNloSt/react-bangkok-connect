@@ -83,6 +83,7 @@ class App extends Component {
           <AppStyle>
             {!this.state.user ? (
               <Center>
+                <Redirect to="/" />
                 <Login />
               </Center>
             ) : (
