@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styled, { keyframes } from 'styled-components'
+import styled, { keyframes, injectGlobal } from 'styled-components'
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import firebase from 'firebase/app'
 
@@ -10,6 +10,15 @@ import FacebookLoginButton from './components/FacebookLoginButton'
 import { Quests } from './components/Quests'
 import { createOtpForUserIfNotExist, setUserData } from './logic/login'
 import { StoreProvider } from './store'
+import { Loader } from './components/Loader'
+
+injectGlobal`
+html, body, #root {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+`
 
 const AppStyle = styled.div`
   text-align: center;
@@ -64,23 +73,35 @@ const Avatar = styled.img`
 
 class App extends Component {
   state = {
+    loading: true,
     user: null
   }
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
+      this.setState({
+        loading: false
+      })
       if (user) {
-        this.setState({ user })
-        setUserData(user)
-        createOtpForUserIfNotExist(user)
+        this.handleLoggedIn(user)
       } else {
-        this.setState({ user: null })
+        this.handleNonLoggedIn()
       }
     })
   }
 
   logout = async () => {
     firebase.auth().signOut()
+  }
+
+  handleLoggedIn(user) {
+    this.setState({ user })
+    setUserData(user)
+    createOtpForUserIfNotExist(user)
+  }
+
+  handleNonLoggedIn() {
+    this.setState({ user: null })
   }
 
   renderUserInfo() {
@@ -103,7 +124,9 @@ class App extends Component {
   }
 
   render() {
-    return (
+    return this.state.loading ? (
+      <Loader />
+    ) : (
       <StoreProvider user={this.state.user}>
         <Router>
           <AppStyle>
