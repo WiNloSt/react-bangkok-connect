@@ -1,0 +1,40 @@
+import React from 'react'
+import { NavLink } from 'react-router-dom'
+import { StoreConsumer } from '../store'
+import { Avatar } from './Avatar'
+
+export const Nav = ({ onLogout }) => (
+  <StoreConsumer>
+    {({ user }) =>
+      console.log(user) || (
+        <ul className="mx-2 my-1 nav nav-pills">
+          <li className="nav-item">
+            <NavLink className="nav-link px-2 py-1" to="/boards">
+              Boards
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link px-2 py-1" to="/quests">
+              Quests
+            </NavLink>
+          </li>
+
+          {user && (
+            <React.Fragment>
+              <Avatar
+                className="ml-auto"
+                height={32}
+                src={`${user.photoURL}?height=32`}
+              />
+              <li>
+                <button className="btn btn-link px-2 py-1" onClick={onLogout}>
+                  Logout
+                </button>
+              </li>
+            </React.Fragment>
+          )}
+        </ul>
+      )
+    }
+  </StoreConsumer>
+)
