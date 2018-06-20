@@ -53,9 +53,11 @@ function Input(prop) {
 
   return (
     <div className="form-group">
-      <label htmlFor={name} className="col-form-label">
-        {label}
-      </label>
+      {!label || (
+        <label htmlFor={name} className="col-form-label">
+          {label}
+        </label>
+      )}
       {InputByType(prop)}
     </div>
   )
