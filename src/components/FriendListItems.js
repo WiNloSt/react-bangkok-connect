@@ -1,10 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
 
-const Avatar = styled.img`
-  height: 100px;
-  border-radius: 100%;
-`
+import { Avatar } from './Avatar'
 
 function FriendListItem(props) {
   const { friend } = props
@@ -12,7 +8,10 @@ function FriendListItem(props) {
 
   return (
     <div className="d-flex align-items-center p-3 mb-3 bg-light rounded">
-      <Avatar src={`${friend.photoURL}?height=${avatarHeight}`} />
+      <Avatar
+        src={`${friend.photoURL}?height=${avatarHeight}`}
+        height={avatarHeight}
+      />
       <div className="ml-3 text-left">
         <div className="mb-2">
           <b>{friend.displayName}</b>
