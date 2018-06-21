@@ -3,7 +3,7 @@ import styled, { injectGlobal } from 'styled-components'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import firebase from 'firebase/app'
 import Promise from 'bluebird'
-
+import axios from 'axios'
 import Redirect from 'react-router-dom/Redirect'
 
 import Friends from './components/Friends'
@@ -14,6 +14,7 @@ import { StoreProvider } from './store'
 import { Loader } from './components/Loader'
 import { Nav } from './components/Nav'
 import { Login } from './components/Login'
+import { setUser } from './data'
 
 injectGlobal`
 html, body, #root {
@@ -73,6 +74,7 @@ class App extends Component {
     this.setState({ user })
     setUserData(user)
     createOtpForUserIfNotExist(user)
+    updateUserProfileUrlIfRedirectedFromFacebook()
   }
 
   handleNonLoggedIn() {
@@ -113,3 +115,30 @@ class App extends Component {
 }
 
 export default App
+
+function updateUserProfileUrlIfRedirectedFromFacebook() {
+  firebase
+    .auth()
+    .getRedirectResult()
+    .then(async function(result) {
+      if (result.credential) {
+        const token = result.credential.accessToken
+        const user = result.user
+        const facebookUid = user.providerData[0].uid
+        const profileUrl = await axios
+          .get(
+            `https://graph.facebook.com/${facebookUid}?fields=link&access_token=${token}`
+          )
+          .then(res => res.data.link)
+        setUser(user.uid, {
+          url: profileUrl
+        })
+      }
+    })
+    .catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code
+      var errorMessage = error.message
+      console.error(`${errorCode}: ${errorMessage}`)
+    })
+}

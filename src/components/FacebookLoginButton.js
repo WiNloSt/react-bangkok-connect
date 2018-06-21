@@ -27,16 +27,10 @@ const Span = styled.span`
 class FacebookLoginButton extends Component {
   login = async () => {
     const provider = new firebase.auth.FacebookAuthProvider()
+    provider.addScope('user_link')
 
     try {
-      const result = await firebase.auth().signInWithRedirect(provider)
-
-      // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-      //const token = result.credential.accessToken
-      // The signed-in user info.
-      const user = result.user
-
-      console.log(user)
+      firebase.auth().signInWithRedirect(provider)
     } catch (error) {
       // Handle Error here.
       const errorCode = error.code
