@@ -38,6 +38,15 @@ export const getFriends = uid =>
       snapshot => (snapshot.empty ? null : getDataFromSnapshotQuery(snapshot))
     )
 
+export const onFriendsChanged = (uid, callback) =>
+  firestore.collection(`users/${uid}/friends`).onSnapshot(snapshot => {
+    let friends = []
+    snapshot.forEach(doc => {
+      friends.push(doc.data())
+    })
+    callback(friends)
+  })
+
 export const createPost = post =>
   firestore.collection('posts').add({
     ...post,

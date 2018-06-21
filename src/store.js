@@ -1,6 +1,6 @@
 import React from 'react'
 import * as R from 'ramda'
-import { onUserChanged } from './data'
+import { onUserChanged, onFriendsChanged } from './data'
 
 const context = React.createContext()
 
@@ -10,8 +10,11 @@ export const actions = {}
 
 export class StoreProvider extends React.Component {
   state = {
-    user: {}
+    user: {},
+    friends: []
   }
+
+  unsubscribeList = []
 
   stateReducer = (state, action) => {
     return state
@@ -25,19 +28,25 @@ export class StoreProvider extends React.Component {
     if (this.props.authUser) {
       const { uid } = this.props.authUser
 
-      this.unsubscribeOnUserChanged = onUserChanged(uid, this.updateUserStore)
+      this.unsubscribeList.push(onUserChanged(uid, this.updateUserStore))
+      this.unsubscribeList.push(
+        onFriendsChanged(uid, friends => this.setState({ friends }))
+      )
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.authUser) {
       const { uid } = nextProps.authUser
-      this.unsubscribeOnUserChanged = onUserChanged(uid, this.updateUserStore)
+      this.unsubscribeList.push(onUserChanged(uid, this.updateUserStore))
+      this.unsubscribeList.push(
+        onFriendsChanged(uid, friends => this.setState({ friends }))
+      )
     }
 
     const userLogout = this.props.authUser && !nextProps.authUser
     if (userLogout) {
-      this.unsubscribeOnUserChanged()
+      this.unsubscribeList.forEach(unsubscribe => unsubscribe())
     }
   }
 
