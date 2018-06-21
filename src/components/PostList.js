@@ -22,7 +22,7 @@ class PostList extends Component {
 
   renderAllPosts(posts) {
     return posts.map((post, index) => (
-      <PostListItem post={post} key={post.id} />
+      <PostListItem post={post} key={post.id} compact />
     ))
   }
 
