@@ -9,8 +9,8 @@ export const Nav = ({ onLogout }) => (
       console.log(user) || (
         <ul className="mx-2 my-1 nav nav-pills">
           <li className="nav-item">
-            <NavLink className="nav-link px-2 py-1" to="/boards">
-              Boards
+            <NavLink className="nav-link px-2 py-1" to="/posts">
+              Board
             </NavLink>
           </li>
           <li className="nav-item">

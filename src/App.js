@@ -6,6 +6,7 @@ import Promise from 'bluebird'
 
 import Redirect from 'react-router-dom/Redirect'
 
+import Board from './components/Board'
 import { Quests } from './components/Quests'
 import { createOtpForUserIfNotExist, setUserData } from './logic/login'
 import { StoreProvider } from './store'
@@ -90,10 +91,8 @@ class App extends Component {
               <React.Fragment>
                 <Nav onLogout={this.logout} />
                 <Switch>
-                  <Redirect from="/" exact to="/boards" />
-                  <Route path="/boards">
-                    <h1>Boards</h1>
-                  </Route>
+                  <Redirect from="/" exact to="/posts" />
+                  <Route path="/posts" component={Board} />
                   <Route path="/quests" component={Quests} />
                 </Switch>
               </React.Fragment>
