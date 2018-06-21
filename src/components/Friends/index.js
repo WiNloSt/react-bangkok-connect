@@ -4,7 +4,8 @@ import styled from 'styled-components'
 import { Toggle } from 'react-powerplug'
 
 import { StoreConsumer } from '../../store'
-import { createKeyframeAnimation } from './util'
+import { createKeyframeAnimation, getCurrentOtpValue } from './util'
+import { handleAddFriendWithOtp } from '../../logic/friends'
 
 const cardHeight = 200
 const animationDuration = 300
@@ -34,13 +35,14 @@ const CollapsableSection = styled.div`
     }
   }
 
-  > {
-    &div {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+  form {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
+  > {
     &.expanded {
       transform-origin: top center;
       animation-name: childExpanded;
@@ -104,7 +106,7 @@ const getNumber = keyCode => {
   }
 }
 
-const handleKeyDown = e => {
+const createHandleKeyDown = (myOtp, uid) => e => {
   e.preventDefault()
   const isNumber =
     (e.which >= 48 && e.which <= 57) || (e.which >= 96 && e.which <= 105)
@@ -122,7 +124,10 @@ const handleKeyDown = e => {
     } else {
       // completed last digit
       currentElement.blur()
-      console.log('finished')
+      const otp = getCurrentOtpValue(formRef.current)
+      if (otp !== myOtp) {
+        handleAddFriendWithOtp(otp, uid)
+      }
     }
   }
 
@@ -136,42 +141,49 @@ const handleKeyDown = e => {
   }
 }
 
+let formRef = React.createRef()
 let firstInputRef
 
 const AddFriendSection = ({ className }) => (
-  <CollapsableSection className={'card m-auto parent ' + className}>
-    <div className={'card-body ' + className}>
-      <Input
-        onKeyDown={handleKeyDown}
-        className="form-control"
-        type="number"
-        pattern="[0-9]*"
-        inputmode="numeric"
-        innerRef={c => (firstInputRef = c)}
-      />
-      <Input
-        onKeyDown={handleKeyDown}
-        className="form-control"
-        type="number"
-        pattern="[0-9]*"
-        inputmode="numeric"
-      />
-      <Input
-        onKeyDown={handleKeyDown}
-        className="form-control"
-        type="number"
-        pattern="[0-9]*"
-        inputmode="numeric"
-      />
-      <Input
-        onKeyDown={handleKeyDown}
-        className="form-control"
-        type="number"
-        pattern="[0-9]*"
-        inputmode="numeric"
-      />
-    </div>
-  </CollapsableSection>
+  <StoreConsumer>
+    {({ user }) => (
+      <CollapsableSection className={'card m-auto parent ' + className}>
+        <div className={'card-body ' + className}>
+          <form ref={formRef}>
+            <Input
+              onKeyDown={createHandleKeyDown(user.otp, user.uid)}
+              className="form-control"
+              type="number"
+              pattern="[0-9]*"
+              inputmode="numeric"
+              innerRef={c => (firstInputRef = c)}
+            />
+            <Input
+              onKeyDown={createHandleKeyDown(user.otp, user.uid)}
+              className="form-control"
+              type="number"
+              pattern="[0-9]*"
+              inputmode="numeric"
+            />
+            <Input
+              onKeyDown={createHandleKeyDown(user.otp, user.uid)}
+              className="form-control"
+              type="number"
+              pattern="[0-9]*"
+              inputmode="numeric"
+            />
+            <Input
+              onKeyDown={createHandleKeyDown(user.otp, user.uid)}
+              className="form-control"
+              type="number"
+              pattern="[0-9]*"
+              inputmode="numeric"
+            />
+          </form>
+        </div>
+      </CollapsableSection>
+    )}
+  </StoreConsumer>
 )
 
 const getClassName = on => (on === null ? '' : on ? 'expanded' : 'collapsed')

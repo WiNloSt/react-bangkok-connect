@@ -7,6 +7,17 @@ function getDataFromSnapshotQuery(snapshot) {
   return snapshot.docs.map(doc => Object.assign({ id: doc.id }, doc.data()))
 }
 
+export const queryUser = query =>
+  firestore
+    .collection('users')
+    .where(...query)
+    .get()
+    .then(snapshot => {
+      let docDatas = []
+      snapshot.forEach(doc => docDatas.push(doc.data()))
+      return docDatas[0]
+    })
+
 export const getUser = uid =>
   firestore
     .doc(`users/${uid}`)
@@ -46,6 +57,12 @@ export const onFriendsChanged = (uid, callback) =>
     })
     callback(friends)
   })
+
+export const setFriend = (uid, friend) => {
+  firestore
+    .doc(`users/${uid}/friends/${friend.uid}`)
+    .set(friend, { merge: true })
+}
 
 export const createPost = post =>
   firestore.collection('posts').add({

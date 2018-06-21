@@ -73,3 +73,12 @@ export function createKeyframeAnimation(cardHeight) {
 function ease(v, pow = 4) {
   return 1 - Math.pow(1 - v, pow)
 }
+
+export const getCurrentOtpValue = formNode => {
+  let otp = ''
+  for (let i = 1; i <= 4; i++) {
+    otp += formNode.querySelector(`input:nth-child(${i})`).value
+  }
+
+  return otp
+}
