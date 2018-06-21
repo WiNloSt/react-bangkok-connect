@@ -26,7 +26,7 @@ class PostForm extends Component {
     event.preventDefault()
 
     try {
-      const { user } = this.props
+      const { user, history } = this.props
       const ref = await createPost({
         ...this.state.post,
         author: user.displayName,
@@ -34,6 +34,7 @@ class PostForm extends Component {
         uid: user.uid
       })
       console.log('Document written with ID: ', ref.id)
+      history.push(`/posts/${ref.id}`)
     } catch (error) {
       console.log('Error adding document: ', error)
     }
