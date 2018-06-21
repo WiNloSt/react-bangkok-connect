@@ -6,6 +6,7 @@ import Promise from 'bluebird'
 
 import Redirect from 'react-router-dom/Redirect'
 
+import Friends from './components/Friends'
 import Board from './components/Board'
 import { Quests } from './components/Quests'
 import { createOtpForUserIfNotExist, setUserData } from './logic/login'
@@ -94,6 +95,10 @@ class App extends Component {
                   <Redirect from="/" exact to="/posts" />
                   <Route path="/posts" component={Board} />
                   <Route path="/quests" component={Quests} />
+                  <Route
+                    path="/friends"
+                    component={() => <Friends user={this.state.user} />}
+                  />
                 </Switch>
               </React.Fragment>
             )}

@@ -18,6 +18,11 @@ export const Nav = ({ onLogout }) => (
               Quests
             </NavLink>
           </li>
+          <li className="nav-item">
+            <NavLink className="nav-link px-2 py-1" to="/friends">
+              Friends
+            </NavLink>
+          </li>
 
           {user && (
             <React.Fragment>
