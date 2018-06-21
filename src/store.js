@@ -30,7 +30,7 @@ export class StoreProvider extends React.Component {
       <context.Provider
         value={{
           ...this.state,
-          user: this.props.user,
+          authUser: this.props.authUser,
           dispatch: this.dispatch
         }}
       >

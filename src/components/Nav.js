@@ -5,7 +5,7 @@ import { Avatar } from './Avatar'
 
 export const Nav = ({ onLogout }) => (
   <StoreConsumer>
-    {({ user }) => (
+    {({ authUser }) => (
       <ul className="mx-2 my-1 nav nav-pills">
         <li className="nav-item">
           <NavLink className="nav-link px-2 py-1" to="/posts">
@@ -23,12 +23,12 @@ export const Nav = ({ onLogout }) => (
           </NavLink>
         </li>
 
-        {user && (
+        {authUser && (
           <React.Fragment>
             <Avatar
               className="ml-auto"
               height={32}
-              src={`${user.photoURL}?height=32`}
+              src={`${authUser.photoURL}?height=32`}
             />
             <li>
               <button className="btn btn-link px-2 py-1" onClick={onLogout}>

@@ -5,9 +5,11 @@ export class Quests extends React.Component {
   render() {
     return (
       <StoreConsumer>
-        {({ otp, user, dispatch }) => {
-          if (user && !otp) {
-            getUser(user.uid).then(user => dispatch(actions.setOtp(user.otp)))
+        {({ otp, authUser, dispatch }) => {
+          if (authUser && !otp) {
+            getUser(authUser.uid).then(user =>
+              dispatch(actions.setOtp(user.otp))
+            )
           }
           return (
             <React.Fragment>

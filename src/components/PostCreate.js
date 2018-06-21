@@ -8,7 +8,7 @@ function PostCreate(props) {
     <React.Fragment>
       <h3 className="mt-3 mb-3">Create Post</h3>
       <StoreConsumer>
-        {({ user }) => <PostForm user={user} history={props.history} />}
+        {({ authUser }) => <PostForm user={authUser} history={props.history} />}
       </StoreConsumer>
     </React.Fragment>
   )
