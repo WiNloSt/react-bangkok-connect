@@ -1,20 +1,14 @@
 import React from 'react'
-import { getUser } from '../data'
-import { StoreConsumer, actions } from '../store'
+import { StoreConsumer } from '../store'
 export class Quests extends React.Component {
   render() {
     return (
       <StoreConsumer>
-        {({ otp, authUser, dispatch }) => {
-          if (authUser && !otp) {
-            getUser(authUser.uid).then(user =>
-              dispatch(actions.setOtp(user.otp))
-            )
-          }
+        {({ user }) => {
           return (
             <React.Fragment>
               <h1>Quests</h1>
-              <p>My OTP is: {otp}</p>
+              <p>My OTP is: {user.otp}</p>
             </React.Fragment>
           )
         }}

@@ -1,29 +1,45 @@
 import React from 'react'
 import * as R from 'ramda'
+import { onUserChanged } from './data'
 
 const context = React.createContext()
 
-const ACTIONS = {
-  setOtp: 'setOtp'
-}
+const ACTIONS = {}
 
-export const actions = {
-  setOtp: otp => ({ type: ACTIONS.setOtp, otp })
-}
+export const actions = {}
 
 export class StoreProvider extends React.Component {
   state = {
-    otp: null
+    user: {}
   }
 
   stateReducer = (state, action) => {
-    if (action.type === ACTIONS.setOtp) {
-      return R.merge(state, { otp: action.otp })
-    }
     return state
   }
 
   dispatch = action => this.setState(this.stateReducer(this.state, action))
+
+  updateUserStore = user => this.setState(state => R.merge(state, { user }))
+
+  componentDidMount() {
+    if (this.props.authUser) {
+      const { uid } = this.props.authUser
+
+      this.unsubscribeOnUserChanged = onUserChanged(uid, this.updateUserStore)
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.authUser) {
+      const { uid } = nextProps.authUser
+      this.unsubscribeOnUserChanged = onUserChanged(uid, this.updateUserStore)
+    }
+
+    const userLogout = this.props.authUser && !nextProps.authUser
+    if (userLogout) {
+      this.unsubscribeOnUserChanged()
+    }
+  }
 
   render() {
     return (

@@ -88,7 +88,6 @@ class App extends Component {
       <StoreProvider authUser={this.state.authUser}>
         <Router>
           <AppStyle>
-            {console.log(this.state)}
             {!this.state.authUser ? (
               <Center>
                 <Redirect to="/" />

@@ -13,6 +13,11 @@ export const getUser = uid =>
     .get()
     .then(doc => (doc.exists ? doc.data() : null))
 
+export const onUserChanged = (uid, callback) =>
+  firestore.doc(`users/${uid}`).onSnapshot(doc => {
+    callback(doc.data())
+  })
+
 export const setUser = (uid, data = {}) =>
   firestore.doc(`users/${uid}`).set(data, { merge: true })
 
