@@ -26,9 +26,12 @@ class PostForm extends Component {
     event.preventDefault()
 
     try {
+      const { user } = this.props
       const ref = await createPost({
         ...this.state.post,
-        author: this.props.user.displayName
+        author: user.displayName,
+        photoURL: user.photoURL,
+        uid: user.uid
       })
       console.log('Document written with ID: ', ref.id)
     } catch (error) {
