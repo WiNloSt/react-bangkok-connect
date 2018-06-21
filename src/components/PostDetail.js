@@ -72,7 +72,7 @@ class PostDetail extends Component {
                   <CommentListItem key={comment.id} comment={comment} />
                 ))
               ) : (
-                <div className="p-5 bg-light text-center rounded">
+                <div className="p-5 bg-dark text-center rounded">
                   <h3 className="text-muted">No Comments</h3>
                 </div>
               )}

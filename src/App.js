@@ -20,6 +20,8 @@ html, body, #root {
   padding: 0;
   margin: 0;
   height: 100%;
+  background: #333;
+  color: white;
 }
 `
 
@@ -32,6 +34,7 @@ const Center = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 `
 
 class App extends Component {
