@@ -36,13 +36,18 @@ const CollapsableSection = styled.div`
   }
 
   form {
-    height: 100%;
+    flex: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
   > {
+    div {
+      display: flex;
+      flex-direction: column;
+    }
+
     &.expanded {
       transform-origin: top center;
       animation-name: childExpanded;
@@ -149,6 +154,7 @@ const AddFriendSection = ({ className }) => (
     {({ user }) => (
       <CollapsableSection className={'card m-auto parent ' + className}>
         <div className={'card-body ' + className}>
+          <p>Type your friend code to add them to your friend list</p>
           <form ref={formRef}>
             <Input
               onKeyDown={createHandleKeyDown(user)}
@@ -190,7 +196,7 @@ const getClassName = on => (on === null ? '' : on ? 'expanded' : 'collapsed')
 
 const Friends = () => (
   <StoreConsumer>
-    {({ friends }) => (
+    {({ user, friends }) => (
       <Toggle initial={null}>
         {({ on, toggle }) => (
           <div className="container">
@@ -209,6 +215,7 @@ const Friends = () => (
               >
                 Add Friends
               </button>
+              <p>My friend code: {user.otp}</p>
               {friends.map(friend => (
                 <FriendListItem friend={friend} key={friend.uid} />
               ))}
