@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import firebase from 'firebase/app'
 import styled from 'styled-components'
-import axios from 'axios'
-
-import { setUser } from '../data'
 
 const Button = styled.button`
   border-radius: 4px;
@@ -33,21 +30,7 @@ class FacebookLoginButton extends Component {
     provider.addScope('user_link')
 
     try {
-      const result = await firebase.auth().signInWithRedirect(provider)
-
-      // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-      const token = result.credential.accessToken
-      // The signed-in user info.
-      const user = result.user
-      const facebookUid = user.providerData[0].uid
-      const profileUrl = await axios
-        .get(
-          `https://graph.facebook.com/${facebookUid}?fields=link&access_token=${token}`
-        )
-        .then(res => res.data.link)
-      setUser(user.uid, {
-        url: profileUrl
-      })
+      firebase.auth().signInWithRedirect(provider)
     } catch (error) {
       // Handle Error here.
       const errorCode = error.code
