@@ -7,7 +7,7 @@ function FriendListItem(props) {
   const avatarHeight = 100
 
   return (
-    <div className="d-flex align-items-center p-3 mb-3 bg-light rounded">
+    <div className="d-flex align-items-center p-3 mb-3 bg-dark rounded">
       <Avatar
         src={`${friend.photoURL}?height=${avatarHeight}`}
         height={avatarHeight}

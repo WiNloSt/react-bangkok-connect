@@ -7,7 +7,7 @@ function CommentListItem(props) {
   const avatarHeight = 60
 
   return (
-    <div className="d-flex bg-light p-3 mb-3">
+    <div className="d-flex bg-dark p-3 mb-3">
       <Avatar
         className="align-self-center"
         src={`${comment.photoURL}?height=${avatarHeight}`}

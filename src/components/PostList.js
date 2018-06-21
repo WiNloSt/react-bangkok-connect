@@ -28,7 +28,7 @@ class PostList extends Component {
 
   renderPostsNotFound() {
     return (
-      <div className="p-5 bg-light text-center rounded">
+      <div className="p-5 bg-dark text-center rounded">
         <h3 className="text-muted">Do not found any Posts</h3>
       </div>
     )
