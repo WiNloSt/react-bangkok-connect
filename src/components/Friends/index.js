@@ -106,7 +106,7 @@ const getNumber = keyCode => {
   }
 }
 
-const createHandleKeyDown = (myOtp, uid) => e => {
+const createHandleKeyDown = myUser => e => {
   e.preventDefault()
   const isNumber =
     (e.which >= 48 && e.which <= 57) || (e.which >= 96 && e.which <= 105)
@@ -125,8 +125,8 @@ const createHandleKeyDown = (myOtp, uid) => e => {
       // completed last digit
       currentElement.blur()
       const otp = getCurrentOtpValue(formRef.current)
-      if (otp !== myOtp) {
-        handleAddFriendWithOtp(otp, uid)
+      if (otp !== myUser.otp) {
+        handleAddFriendWithOtp(otp, myUser)
       }
     }
   }
@@ -151,7 +151,7 @@ const AddFriendSection = ({ className }) => (
         <div className={'card-body ' + className}>
           <form ref={formRef}>
             <Input
-              onKeyDown={createHandleKeyDown(user.otp, user.uid)}
+              onKeyDown={createHandleKeyDown(user)}
               className="form-control"
               type="number"
               pattern="[0-9]*"
@@ -159,21 +159,21 @@ const AddFriendSection = ({ className }) => (
               innerRef={c => (firstInputRef = c)}
             />
             <Input
-              onKeyDown={createHandleKeyDown(user.otp, user.uid)}
+              onKeyDown={createHandleKeyDown(user)}
               className="form-control"
               type="number"
               pattern="[0-9]*"
               inputmode="numeric"
             />
             <Input
-              onKeyDown={createHandleKeyDown(user.otp, user.uid)}
+              onKeyDown={createHandleKeyDown(user)}
               className="form-control"
               type="number"
               pattern="[0-9]*"
               inputmode="numeric"
             />
             <Input
-              onKeyDown={createHandleKeyDown(user.otp, user.uid)}
+              onKeyDown={createHandleKeyDown(user)}
               className="form-control"
               type="number"
               pattern="[0-9]*"

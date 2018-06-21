@@ -5,21 +5,23 @@ export const setUserData = async authUser => {
   setUser(authUser.uid, { name: displayName, photoURL, uid })
 }
 
-export const createOtpForUserIfNotExist = async authUser => {
-  const userFromDb = await getUser(authUser.uid)
+export const createOtpForUserIfNotExist = async user => {
+  const userFromDb = await getUser(user.uid)
   const hasOtp = userFromDb && userFromDb.otp > -1
   if (hasOtp) return
 
+  await generateAndSaveOtpToDb(user.uid)
+}
+
+export async function generateAndSaveOtpToDb(uid) {
   let otp = generateOtp()
   while (await otpExists(otp)) {
     otp = generateOtp()
   }
-
   setOtp(otp, {
-    user: authUser.uid
+    user: uid
   })
-
-  setUser(authUser.uid, {
+  setUser(uid, {
     otp
   })
 }

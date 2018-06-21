@@ -41,6 +41,13 @@ export const setOtp = (otp, data = {}) => {
   firestore.doc(`otps/${otp}`).set(data, { merge: true })
 }
 
+export const deleteOtp = otp =>
+  firestore
+    .doc(`otps/${otp}`)
+    .delete()
+    .then(() => console.log('delete otp: ' + otp))
+    .catch(error => console.error('can not delete otp: ' + otp, error))
+
 export const getFriends = uid =>
   firestore
     .collection(`users/${uid}/friends`)
