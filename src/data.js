@@ -41,6 +41,7 @@ export const updatePost = (pid, data = {}) =>
 export const getPosts = () =>
   firestore
     .collection('posts')
+    .orderBy('updatedAt', 'desc')
     .get()
     .then(
       snapshot => (snapshot.empty ? null : getDataFromSnapshotQuery(snapshot))
