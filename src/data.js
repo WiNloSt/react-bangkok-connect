@@ -32,6 +32,12 @@ export const createPost = post =>
     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
   })
 
+export const updatePost = (pid, data = {}) =>
+  firestore.doc(`posts/${pid}`).update({
+    ...data,
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  })
+
 export const getPosts = () =>
   firestore
     .collection('posts')

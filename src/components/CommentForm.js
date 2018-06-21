@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Input from './Input'
 
-import { createComment } from '../data'
+import { createComment, updatePost } from '../data'
 
 class CommentForm extends Component {
   state = {
@@ -55,6 +55,8 @@ class CommentForm extends Component {
               body: ''
             }
           })
+
+          updatePost(this.props.postID)
         }
       } catch (error) {
         console.log(error)
