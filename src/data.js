@@ -25,7 +25,12 @@ export const setOtp = (otp, data = {}) => {
   firestore.doc(`otps/${otp}`).set(data, { merge: true })
 }
 
-export const createPost = post => firestore.collection('posts').add(post)
+export const createPost = post =>
+  firestore.collection('posts').add({
+    ...post,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  })
 
 export const getPosts = () =>
   firestore
