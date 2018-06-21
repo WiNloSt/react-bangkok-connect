@@ -13,7 +13,7 @@ const Title = styled.h1`
 `
 
 export const Login = () => (
-  <React.Fragment className="flex-direction-column">
+  <React.Fragment>
     <Logo src={logo} />
     <Title className="py-5">React Bangkok Connect</Title>
     <div>

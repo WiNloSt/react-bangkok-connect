@@ -60,7 +60,7 @@ class PostDetail extends Component {
 
     return (
       <StoreConsumer>
-        {({ user }) => (
+        {({ authUser }) => (
           <React.Fragment>
             {!post || <PostListItem post={post} />}
 
@@ -79,7 +79,7 @@ class PostDetail extends Component {
               <div className="row">
                 <div className="col-md-6">
                   <h5 className="my-3">Create new Comment</h5>
-                  <CommentForm postID={match.params.pid} user={user} />
+                  <CommentForm postID={match.params.pid} user={authUser} />
                 </div>
               </div>
             </div>

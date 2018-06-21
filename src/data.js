@@ -13,6 +13,11 @@ export const getUser = uid =>
     .get()
     .then(doc => (doc.exists ? doc.data() : null))
 
+export const onUserChanged = (uid, callback) =>
+  firestore.doc(`users/${uid}`).onSnapshot(doc => {
+    callback(doc.data())
+  })
+
 export const setUser = (uid, data = {}) =>
   firestore.doc(`users/${uid}`).set(data, { merge: true })
 
@@ -32,6 +37,15 @@ export const getFriends = uid =>
     .then(
       snapshot => (snapshot.empty ? null : getDataFromSnapshotQuery(snapshot))
     )
+
+export const onFriendsChanged = (uid, callback) =>
+  firestore.collection(`users/${uid}/friends`).onSnapshot(snapshot => {
+    let friends = []
+    snapshot.forEach(doc => {
+      friends.push(doc.data())
+    })
+    callback(friends)
+  })
 
 export const createPost = post =>
   firestore.collection('posts').add({

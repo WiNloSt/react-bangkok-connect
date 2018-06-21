@@ -41,7 +41,7 @@ const Center = styled.div`
 class App extends Component {
   state = {
     loading: true,
-    user: null
+    authUser: null
   }
 
   componentDidMount() {
@@ -57,9 +57,9 @@ class App extends Component {
       })
     })
 
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.handleLoggedIn(user)
+    firebase.auth().onAuthStateChanged(authUser => {
+      if (authUser) {
+        this.handleLoggedIn(authUser)
       } else {
         this.handleNonLoggedIn()
       }
@@ -70,25 +70,25 @@ class App extends Component {
     firebase.auth().signOut()
   }
 
-  handleLoggedIn(user) {
-    this.setState({ user })
-    setUserData(user)
-    createOtpForUserIfNotExist(user)
+  handleLoggedIn(authUser) {
+    this.setState({ authUser })
+    setUserData(authUser)
+    createOtpForUserIfNotExist(authUser)
     updateUserProfileUrlIfRedirectedFromFacebook()
   }
 
   handleNonLoggedIn() {
-    this.setState({ user: null })
+    this.setState({ authUser: null })
   }
 
   render() {
     return this.state.loading ? (
       <Loader />
     ) : (
-      <StoreProvider user={this.state.user}>
+      <StoreProvider authUser={this.state.authUser}>
         <Router>
           <AppStyle>
-            {!this.state.user ? (
+            {!this.state.authUser ? (
               <Center>
                 <Redirect to="/" />
                 <Login />
@@ -102,7 +102,7 @@ class App extends Component {
                   <Route path="/quests" component={Quests} />
                   <Route
                     path="/friends"
-                    component={() => <Friends user={this.state.user} />}
+                    component={() => <Friends user={this.state.authUser} />}
                   />
                 </Switch>
               </React.Fragment>
@@ -131,7 +131,7 @@ function updateUserProfileUrlIfRedirectedFromFacebook() {
           )
           .then(res => res.data.link)
         setUser(user.uid, {
-          url: profileUrl
+          profileURL: profileUrl
         })
       }
     })

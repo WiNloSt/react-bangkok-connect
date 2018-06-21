@@ -1,11 +1,12 @@
 import { getOtp, setOtp, getUser, setUser } from '../data'
 
-export const setUserData = async user => {
-  setUser(user.uid, { name: user.displayName })
+export const setUserData = async authUser => {
+  const { displayName, photoURL, uid } = authUser
+  setUser(authUser.uid, { name: displayName, photoURL, uid })
 }
 
-export const createOtpForUserIfNotExist = async user => {
-  const userFromDb = await getUser(user.uid)
+export const createOtpForUserIfNotExist = async authUser => {
+  const userFromDb = await getUser(authUser.uid)
   const hasOtp = userFromDb && userFromDb.otp > -1
   if (hasOtp) return
 
@@ -15,10 +16,10 @@ export const createOtpForUserIfNotExist = async user => {
   }
 
   setOtp(otp, {
-    user: user.uid
+    user: authUser.uid
   })
 
-  setUser(user.uid, {
+  setUser(authUser.uid, {
     otp
   })
 }
