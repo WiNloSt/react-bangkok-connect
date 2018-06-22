@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { StoreConsumer } from '../store'
-import { Avatar } from './Avatar'
+import Avatar from './Avatar'
 
 export const Nav = ({ onLogout }) => (
   <StoreConsumer>
@@ -25,11 +25,7 @@ export const Nav = ({ onLogout }) => (
 
         {authUser && (
           <React.Fragment>
-            <Avatar
-              className="ml-auto"
-              height={32}
-              src={`${authUser.photoURL}?height=32`}
-            />
+            <Avatar className="ml-auto" size={32} src={authUser.photoURL} />
             <li>
               <button className="btn btn-link px-2 py-1" onClick={onLogout}>
                 Logout
