@@ -28,7 +28,10 @@ html, body, #root {
 `
 
 const AppStyle = styled.div`
+  display: flex;
+  flex-direction: column;
   text-align: center;
+  height: 100vh;
 `
 
 const Center = styled.div`
@@ -101,14 +104,12 @@ class App extends Component {
                   <Redirect from="/" exact to="/dashboard" />
                   <Route path="/posts" component={Board} />
                   <Route path="/quests" component={Quests} />
-                  <Route
-                    path="/dashboard"
-                    component={() => <Dashboard user={this.state.authUser} />}
-                  />
-                  <Route
-                    path="/friends"
-                    component={() => <Friends user={this.state.authUser} />}
-                  />
+                  <Route path="/dashboard">
+                    <Dashboard user={this.state.authUser} />
+                  </Route>
+                  <Route path="/friends">
+                    <Friends user={this.state.authUser} />
+                  </Route>
                 </Switch>
               </React.Fragment>
             )}

@@ -57,7 +57,8 @@ export class StoreProvider extends React.Component {
 
     const userLogout = this.props.authUser && !nextProps.authUser
     if (userLogout) {
-      this.unsubscribeList.forEach(unsubscribe => unsubscribe())
+      this.unsubscribeList.forEach(unsubscribe => unsubscribe && unsubscribe())
+      this.unsubscribeList = []
     }
   }
 

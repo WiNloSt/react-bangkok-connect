@@ -157,7 +157,7 @@ const Friends = () => (
     {({ user, friends }) => (
       <Toggle initial={null}>
         {({ on, toggle }) => (
-          <div className="container">
+          <div className="container p-3">
             <h1>Friends</h1>
             <AddFriendSection className={getClassName(on)} />
             <div>
