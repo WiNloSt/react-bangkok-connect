@@ -37,7 +37,7 @@ function Dashboard(props) {
               <Avatar
                 className="mt-4"
                 src={`${authUser.photoURL}?height=${avatarHeight}`}
-                height={avatarHeight}
+                size={avatarHeight}
               />
               <DisplayName className="py-4">{authUser.displayName}</DisplayName>
 

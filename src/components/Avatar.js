@@ -17,3 +17,5 @@ export default function Avatar(props) {
     />
   )
 }
+
+export { Avatar }
