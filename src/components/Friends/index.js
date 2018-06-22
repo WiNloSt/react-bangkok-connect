@@ -12,27 +12,21 @@ const animationDuration = 300
 
 const CollapsableSection = styled.div`
   color: #333;
-  transform: scaleY(0);
   max-width: 400px;
-  height: ${cardHeight}px;
+  height: 0;
+  visibility: hidden;
+  opacity: 0;
   overflow: hidden;
+  transition: all ${animationDuration}ms;
+  visibility: visible;
 
-  &.parent {
-    &.expanded {
-      transform-origin: top center;
-      animation-name: parentExpanded;
-      animation-duration: ${animationDuration}ms;
-      animation-timing-function: linear;
-      animation-fill-mode: forwards;
-    }
+  &.parent.expanded {
+    height: ${cardHeight}px;
+    visibility: visible;
+    opacity: 1;
+  }
 
-    &.collapsed {
-      transform-origin: top center;
-      animation-name: parentCollapsed;
-      animation-duration: ${animationDuration}ms;
-      animation-timing-function: linear;
-      animation-fill-mode: forwards;
-    }
+  &.parent.collapsed {
   }
 
   form {
@@ -47,43 +41,7 @@ const CollapsableSection = styled.div`
       display: flex;
       flex-direction: column;
     }
-
-    &.expanded {
-      transform-origin: top center;
-      animation-name: childExpanded;
-      animation-duration: ${animationDuration}ms;
-      animation-timing-function: linear;
-      animation-fill-mode: forwards;
-    }
-
-    &.collapsed {
-      transform-origin: top center;
-      animation-name: childCollapsed;
-      animation-duration: ${animationDuration}ms;
-      animation-timing-function: linear;
-      animation-fill-mode: forwards;
-    }
   }
-
-  ~ .translate-wrapper {
-    transform: translateY(${-cardHeight}px);
-
-    &.expanded {
-      animation-name: restExpanded;
-      animation-duration: ${animationDuration}ms;
-      animation-timing-function: linear;
-      animation-fill-mode: forwards;
-    }
-
-    &.collapsed {
-      animation-name: restCollapsed;
-      animation-duration: ${animationDuration}ms;
-      animation-timing-function: linear;
-      animation-fill-mode: forwards;
-    }
-  }
-
-  ${createKeyframeAnimation(cardHeight)};
 `
 
 const Input = styled.input`
@@ -153,7 +111,7 @@ const AddFriendSection = ({ className }) => (
   <StoreConsumer>
     {({ user }) => (
       <CollapsableSection className={'card m-auto parent ' + className}>
-        <div className={'card-body ' + className}>
+        <div className="card-body">
           <p>Type your friend code to add them to your friend list</p>
           <form ref={formRef}>
             <Input
@@ -202,7 +160,7 @@ const Friends = () => (
           <div className="container">
             <h1>Friends</h1>
             <AddFriendSection className={getClassName(on)} />
-            <div className={'translate-wrapper ' + getClassName(on)}>
+            <div>
               <button
                 className="btn btn-primary my-3"
                 onClick={() => {
