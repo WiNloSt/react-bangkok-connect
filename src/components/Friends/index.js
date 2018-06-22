@@ -10,6 +10,7 @@ import {
   clearOtpValue
 } from './util'
 import { handleAddFriendWithOtp } from '../../logic/friends'
+import { DefaultLoader } from '../Loader'
 
 const cardHeight = 200
 const animationDuration = 300
@@ -121,7 +122,7 @@ const AddFriendSection = ({ className }) => (
       <Toggle initial={false}>
         {({ on: loading, setOn: setLoading }) => (
           <CollapsableSection className={'card m-auto parent ' + className}>
-            {loading && 'loading...'}
+            {loading && <DefaultLoader />}
             <div className={'card-body ' + className}>
               <p>Type your friend code to add them to your friend list</p>
               <form ref={formRef}>
