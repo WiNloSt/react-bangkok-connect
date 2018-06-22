@@ -114,6 +114,5 @@ export const onAchievementsChanged = (uid, callback) =>
     .onSnapshot(snapshot => {
       const achievements = []
       snapshot.forEach(doc => achievements.push({ id: doc.id, ...doc.data() }))
-      console.log(typeof callback)
       callback(achievements)
     })
