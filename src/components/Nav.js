@@ -30,7 +30,7 @@ export const Nav = ({ onLogout }) => (
 
         {authUser && (
           <React.Fragment>
-            <Avatar className="ml-auto" size={32} src={authUser.photoURL} />
+            <Avatar className="ml-auto" size={32} url={authUser.photoURL} />
             <li>
               <button className="btn btn-link px-2 py-1" onClick={onLogout}>
                 Logout

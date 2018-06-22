@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { calculatePoint } from '../logic/point'
 import { StoreConsumer } from '../store'
-import { Avatar } from './Avatar'
+import Avatar from './Avatar'
 import AchievementListItem from './AchievementListItem'
 
 const DisplayName = styled.h5``
@@ -20,7 +20,7 @@ const AchievementContainer = styled.div`
 `
 
 function Dashboard(props) {
-  const avatarHeight = 120
+  const avatarSize = 120
 
   return (
     <StoreConsumer>
@@ -36,8 +36,8 @@ function Dashboard(props) {
             <div className="col-md-4 offset-md-4">
               <Avatar
                 className="mt-4"
-                src={`${authUser.photoURL}?height=${avatarHeight}`}
-                size={avatarHeight}
+                url={authUser.photoURL}
+                size={avatarSize}
               />
               <DisplayName className="py-4">{authUser.displayName}</DisplayName>
 
