@@ -4,7 +4,11 @@ import styled from 'styled-components'
 import { Toggle } from 'react-powerplug'
 
 import { StoreConsumer } from '../../store'
-import { createKeyframeAnimation, getCurrentOtpValue } from './util'
+import {
+  createKeyframeAnimation,
+  getCurrentOtpValue,
+  clearOtpValue
+} from './util'
 import { handleAddFriendWithOtp } from '../../logic/friends'
 
 const cardHeight = 200
@@ -69,7 +73,7 @@ const getNumber = keyCode => {
   }
 }
 
-const createHandleKeyDown = myUser => e => {
+const createHandleKeyDown = (myUser, setLoading) => async e => {
   e.preventDefault()
   const isNumber =
     (e.which >= 48 && e.which <= 57) || (e.which >= 96 && e.which <= 105)
@@ -89,7 +93,11 @@ const createHandleKeyDown = myUser => e => {
       currentElement.blur()
       const otp = getCurrentOtpValue(formRef.current)
       if (otp !== myUser.otp) {
-        handleAddFriendWithOtp(otp, myUser)
+        setLoading(true)
+        await handleAddFriendWithOtp(otp, myUser)
+        setLoading(false)
+      } else {
+        // is my own OTP
       }
     }
   }
@@ -110,42 +118,47 @@ let firstInputRef
 const AddFriendSection = ({ className }) => (
   <StoreConsumer>
     {({ user }) => (
-      <CollapsableSection className={'card m-auto parent ' + className}>
-        <div className="card-body">
-          <p>Type your friend code to add them to your friend list</p>
-          <form ref={formRef}>
-            <Input
-              onKeyDown={createHandleKeyDown(user)}
-              className="form-control"
-              type="number"
-              pattern="[0-9]*"
-              inputmode="numeric"
-              innerRef={c => (firstInputRef = c)}
-            />
-            <Input
-              onKeyDown={createHandleKeyDown(user)}
-              className="form-control"
-              type="number"
-              pattern="[0-9]*"
-              inputmode="numeric"
-            />
-            <Input
-              onKeyDown={createHandleKeyDown(user)}
-              className="form-control"
-              type="number"
-              pattern="[0-9]*"
-              inputmode="numeric"
-            />
-            <Input
-              onKeyDown={createHandleKeyDown(user)}
-              className="form-control"
-              type="number"
-              pattern="[0-9]*"
-              inputmode="numeric"
-            />
-          </form>
-        </div>
-      </CollapsableSection>
+      <Toggle initial={false}>
+        {({ on: loading, setOn: setLoading }) => (
+          <CollapsableSection className={'card m-auto parent ' + className}>
+            {loading && 'loading...'}
+            <div className={'card-body ' + className}>
+              <p>Type your friend code to add them to your friend list</p>
+              <form ref={formRef}>
+                <Input
+                  onKeyDown={createHandleKeyDown(user, setLoading)}
+                  className="form-control"
+                  type="number"
+                  pattern="[0-9]*"
+                  inputmode="numeric"
+                  innerRef={c => (firstInputRef = c)}
+                />
+                <Input
+                  onKeyDown={createHandleKeyDown(user, setLoading)}
+                  className="form-control"
+                  type="number"
+                  pattern="[0-9]*"
+                  inputmode="numeric"
+                />
+                <Input
+                  onKeyDown={createHandleKeyDown(user, setLoading)}
+                  className="form-control"
+                  type="number"
+                  pattern="[0-9]*"
+                  inputmode="numeric"
+                />
+                <Input
+                  onKeyDown={createHandleKeyDown(user, setLoading)}
+                  className="form-control"
+                  type="number"
+                  pattern="[0-9]*"
+                  inputmode="numeric"
+                />
+              </form>
+            </div>
+          </CollapsableSection>
+        )}
+      </Toggle>
     )}
   </StoreConsumer>
 )
@@ -167,6 +180,8 @@ const Friends = () => (
                   const isClickToExpand = on === false || on === null
                   if (isClickToExpand) {
                     firstInputRef.focus()
+                  } else {
+                    clearOtpValue(formRef.current)
                   }
                   toggle()
                 }}

@@ -82,3 +82,9 @@ export const getCurrentOtpValue = formNode => {
 
   return otp
 }
+
+export const clearOtpValue = formNode => {
+  for (let i = 1; i <= 4; i++) {
+    formNode.querySelector(`input:nth-child(${i})`).value = null
+  }
+}
