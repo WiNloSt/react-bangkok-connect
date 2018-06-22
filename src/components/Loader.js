@@ -11,7 +11,7 @@ const Container = styled.div`
   align-items: center;
 `
 
-export const Loader = () => (
+export const ReactLoader = () => (
   <Container>
     <AtomSpinner />
   </Container>
