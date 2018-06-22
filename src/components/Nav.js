@@ -6,7 +6,8 @@ import {
   faUserFriends,
   faChalkboard,
   faQuestion,
-  faHome
+  faHome,
+  faBars
 } from '@fortawesome/free-solid-svg-icons'
 
 import { StoreConsumer } from '../store'
@@ -57,6 +58,14 @@ const TabMenuOffset = styled.div`
   height: 50px;
 `
 
+const User = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 1rem;
+  margin-right: 1rem;
+`
+
 export const Nav = ({ onLogout }) => (
   <StoreConsumer>
     {({ authUser }) => (
@@ -97,6 +106,11 @@ export const Nav = ({ onLogout }) => (
           </ul>
         </Desktop>
         <BelowDesktop>
+          <User>
+            {authUser && (
+              <Avatar className="ml-auto" size={48} src={authUser.photoURL} />
+            )}
+          </User>
           <TabMenu>
             <div>
               <NavLink to="/dashboard">
