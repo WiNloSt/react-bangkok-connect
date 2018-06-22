@@ -6,12 +6,12 @@ import {
   faUserFriends,
   faChalkboard,
   faQuestion,
-  faHome,
-  faBars
+  faHome
 } from '@fortawesome/free-solid-svg-icons'
 
 import { StoreConsumer } from '../store'
 import Avatar from './Avatar'
+import { Toggle } from 'react-powerplug'
 
 const Desktop = styled.div`
   display: none;
@@ -64,7 +64,32 @@ const User = styled.div`
   right: 0;
   margin-top: 1rem;
   margin-right: 1rem;
+  z-index: 1;
 `
+
+const PopupContainer = styled.div`
+  position: absolute;
+  right: 0;
+  top: unset;
+  left: unset;
+  bottom: unset;
+  margin-top: 1rem;
+`
+
+const Popup = ({ onLogout }) => (
+  <PopupContainer
+    className="popover fade bs-popover-bottom show"
+    role="tooltip"
+    x-placement="left"
+  >
+    <div className="arrow" style={{ left: 45 }} />
+    <div className="popover-body">
+      <button className="btn btn-link px-2 py-1" onClick={onLogout}>
+        Logout
+      </button>
+    </div>
+  </PopupContainer>
+)
 
 export const Nav = ({ onLogout }) => (
   <StoreConsumer>
@@ -108,7 +133,19 @@ export const Nav = ({ onLogout }) => (
         <BelowDesktop>
           <User>
             {authUser && (
-              <Avatar className="ml-auto" size={48} src={authUser.photoURL} />
+              <Toggle intial={false}>
+                {({ on, toggle }) => (
+                  <div className="position-relative">
+                    <Avatar
+                      className="ml-auto"
+                      size={48}
+                      src={authUser.photoURL}
+                      onClick={toggle}
+                    />
+                    {on && <Popup onLogout={onLogout} />}
+                  </div>
+                )}
+              </Toggle>
             )}
           </User>
           <TabMenu>
