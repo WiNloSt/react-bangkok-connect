@@ -107,7 +107,7 @@ export const createComment = (pid, comment) =>
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   })
 
-export const onAchievementsChanged = (uid, callback) => {
+export const onAchievementsChanged = (uid, callback) =>
   firestore
     .collection(`achievements`)
     .where('uid', '==', uid)
@@ -117,4 +117,3 @@ export const onAchievementsChanged = (uid, callback) => {
       console.log(typeof callback)
       callback(achievements)
     })
-}
