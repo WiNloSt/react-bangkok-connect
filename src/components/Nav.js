@@ -12,6 +12,7 @@ import {
 import { StoreConsumer } from '../store'
 import Avatar from './Avatar'
 import { Toggle } from 'react-powerplug'
+import { createKeyframeAnimation } from './Friends/util'
 
 const Desktop = styled.div`
   display: none;
@@ -67,28 +68,77 @@ const User = styled.div`
   z-index: 1;
 `
 
-const PopupContainer = styled.div`
+const cardHeight = 60
+const animationDuration = 300
+
+const CollapsableSection = styled.div`
+  color: #333;
+  transform: scaleY(0);
+  height: ${cardHeight}px;
+  overflow: hidden;
+
+  /* Popup style */
   position: absolute;
   right: 0;
-  top: unset;
-  left: unset;
-  bottom: unset;
-  margin-top: 1rem;
+  width: 100px;
+  margin-top: 0.5rem;
+
+  &.expanded {
+    transform-origin: top center;
+    animation-name: parentExpanded;
+    animation-duration: ${animationDuration}ms;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+
+  &.collapsed {
+    transform-origin: top center;
+    animation-name: parentCollapsed;
+    animation-duration: ${animationDuration}ms;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+
+  > {
+    * {
+      right: 0;
+    }
+
+    &.expanded {
+      transform-origin: top center;
+      animation-name: childExpanded;
+      animation-duration: ${animationDuration}ms;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+    }
+
+    &.collapsed {
+      transform-origin: top center;
+      animation-name: childCollapsed;
+      animation-duration: ${animationDuration}ms;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+    }
+  }
+
+  ${createKeyframeAnimation(cardHeight)};
 `
 
-const Popup = ({ onLogout }) => (
-  <PopupContainer
-    className="popover fade bs-popover-bottom show"
-    role="tooltip"
-    x-placement="left"
-  >
-    <div className="arrow" style={{ left: 45 }} />
-    <div className="popover-body">
-      <button className="btn btn-link px-2 py-1" onClick={onLogout}>
-        Logout
-      </button>
+const Popup = ({ onLogout, className }) => (
+  <CollapsableSection className={className}>
+    <div
+      className={'popover fade bs-popover-bottom show ' + className}
+      role="tooltip"
+      x-placement="left"
+    >
+      <div className="arrow" style={{ right: 8, top: -8 }} />
+      <div className="popover-body">
+        <button className="btn btn-link px-2 py-1 w-100" onClick={onLogout}>
+          Logout
+        </button>
+      </div>
     </div>
-  </PopupContainer>
+  </CollapsableSection>
 )
 
 export const Nav = ({ onLogout }) => (
@@ -133,7 +183,7 @@ export const Nav = ({ onLogout }) => (
         <BelowDesktop>
           <User>
             {authUser && (
-              <Toggle intial={false}>
+              <Toggle initial={null}>
                 {({ on, toggle }) => (
                   <div className="position-relative">
                     <Avatar
@@ -142,7 +192,12 @@ export const Nav = ({ onLogout }) => (
                       src={authUser.photoURL}
                       onClick={toggle}
                     />
-                    {on && <Popup onLogout={onLogout} />}
+                    <Popup
+                      className={
+                        on === null ? '' : on ? 'expanded' : 'collapsed'
+                      }
+                      onLogout={onLogout}
+                    />
                   </div>
                 )}
               </Toggle>
