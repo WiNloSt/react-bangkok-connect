@@ -12,7 +12,7 @@ import Dashboard from './components/Dashboard'
 import { Quests } from './components/Quests'
 import { createOtpForUserIfNotExist, setUserData } from './logic/login'
 import { StoreProvider } from './store'
-import { Loader } from './components/Loader'
+import { ReactLoader } from './components/Loader'
 import { Nav } from './components/Nav'
 import { Login } from './components/Login'
 import { setUser } from './data'
@@ -87,7 +87,7 @@ class App extends Component {
 
   render() {
     return this.state.loading ? (
-      <Loader />
+      <ReactLoader />
     ) : (
       <StoreProvider authUser={this.state.authUser}>
         <Router>
