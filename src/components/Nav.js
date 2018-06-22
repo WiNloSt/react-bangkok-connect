@@ -8,6 +8,11 @@ export const Nav = ({ onLogout }) => (
     {({ authUser }) => (
       <ul className="mx-2 my-1 nav nav-pills">
         <li className="nav-item">
+          <NavLink className="nav-link px-2 py-1" to="/dashboard">
+            Dashboard
+          </NavLink>
+        </li>
+        <li className="nav-item">
           <NavLink className="nav-link px-2 py-1" to="/posts">
             Board
           </NavLink>

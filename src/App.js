@@ -8,6 +8,7 @@ import Redirect from 'react-router-dom/Redirect'
 
 import Friends from './components/Friends'
 import Board from './components/Board'
+import Dashboard from './components/Dashboard'
 import { Quests } from './components/Quests'
 import { createOtpForUserIfNotExist, setUserData } from './logic/login'
 import { StoreProvider } from './store'
@@ -97,9 +98,13 @@ class App extends Component {
               <React.Fragment>
                 <Nav onLogout={this.logout} />
                 <Switch>
-                  <Redirect from="/" exact to="/posts" />
+                  <Redirect from="/" exact to="/dashboard" />
                   <Route path="/posts" component={Board} />
                   <Route path="/quests" component={Quests} />
+                  <Route
+                    path="/dashboard"
+                    component={() => <Dashboard user={this.state.authUser} />}
+                  />
                   <Route
                     path="/friends"
                     component={() => <Friends user={this.state.authUser} />}

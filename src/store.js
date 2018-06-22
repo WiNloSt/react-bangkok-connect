@@ -1,6 +1,6 @@
 import React from 'react'
 import * as R from 'ramda'
-import { onUserChanged, onFriendsChanged } from './data'
+import { onUserChanged, onFriendsChanged, onAchievementsChanged } from './data'
 
 const context = React.createContext()
 
@@ -11,7 +11,8 @@ export const actions = {}
 export class StoreProvider extends React.Component {
   state = {
     user: {},
-    friends: []
+    friends: [],
+    achievements: []
   }
 
   unsubscribeList = []
@@ -32,6 +33,11 @@ export class StoreProvider extends React.Component {
       this.unsubscribeList.push(
         onFriendsChanged(uid, friends => this.setState({ friends }))
       )
+      this.unsubscribeList.push(
+        onAchievementsChanged(uid, achievements =>
+          this.setState({ achievements })
+        )
+      )
     }
   }
 
@@ -41,6 +47,11 @@ export class StoreProvider extends React.Component {
       this.unsubscribeList.push(onUserChanged(uid, this.updateUserStore))
       this.unsubscribeList.push(
         onFriendsChanged(uid, friends => this.setState({ friends }))
+      )
+      this.unsubscribeList.push(
+        onAchievementsChanged(uid, achievements =>
+          this.setState({ achievements })
+        )
       )
     }
 
