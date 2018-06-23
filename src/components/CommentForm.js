@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Input from './Input'
 
-import { createComment, updatePost } from '../data'
+import { createComment, updatePost, createParticipant } from '../data'
 
 class CommentForm extends Component {
   state = {
@@ -57,6 +57,11 @@ class CommentForm extends Component {
           })
 
           updatePost(this.props.postID)
+          createParticipant(this.props.postID, {
+            uid: user.uid,
+            name: user.displayName,
+            photoURL: user.photoURL
+          })
         }
       } catch (error) {
         console.log(error)

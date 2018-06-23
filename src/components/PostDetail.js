@@ -12,15 +12,19 @@ class PostDetail extends Component {
   state = {
     post: null,
     comments: [],
-    commentsListener: null
+    participants: new Map(),
+    isFetching: false
   }
+
+  commentsListener = null
+  participantListener = null
 
   componentDidMount() {
     const { pid } = this.props.match.params
 
     this.fetchPost(pid)
 
-    const commentsListener = firebase
+    this.commentsListener = firebase
       .firestore()
       .collection(`posts/${pid}/comments`)
       .orderBy('createdAt', 'asc')
@@ -28,63 +32,97 @@ class PostDetail extends Component {
         this.setState({
           comments: [
             ...snapshot.docs.map(doc =>
-              Object.assign({ id: doc.id }, doc.data())
+              Object.assign({ id: doc.id, pid }, doc.data())
             )
           ]
         })
       })
 
-    this.setState({
-      commentsListener
-    })
+    this.participantListener = firebase
+      .firestore()
+      .collection(`posts/${pid}/participants`)
+      .onSnapshot(snapshot => {
+        const { participants } = this.state
+
+        snapshot.forEach(doc => {
+          participants.set(doc.id, doc.data())
+        })
+        this.setState({
+          participants
+        })
+      })
   }
 
   componentWillUnmount() {
     //Unsubscribe Listener
-    this.state.commentsListener()
+    this.commentsListener()
+    this.participantListener()
   }
 
   fetchPost = async pid => {
-    const post = await getPost(pid)
-
     this.setState({
-      post
+      isFetching: true
     })
 
-    return post
+    try {
+      const post = await getPost(pid)
+      this.setState({
+        post,
+        isFetching: false
+      })
+      return post
+    } catch (error) {
+      console.log(error)
+      this.setState({
+        isFetching: false
+      })
+      return null
+    }
   }
 
   render() {
-    const { post, comments } = this.state
+    const { post, comments, participants } = this.state
     const { match } = this.props
 
     return (
       <StoreConsumer>
-        {({ authUser }) => (
-          <React.Fragment>
-            {!post || <PostListItem post={post} />}
+        {({ authUser }) =>
+          !post || (
+            <React.Fragment>
+              <PostListItem post={post} />
 
-            <h5>Total Comments: {comments ? comments.length : 0}</h5>
+              <h5>Total Comments: {comments ? comments.length : 0}</h5>
 
-            <div className="py-3">
-              {comments && comments.length ? (
-                comments.map(comment => (
-                  <CommentListItem key={comment.id} comment={comment} />
-                ))
-              ) : (
-                <div className="p-5 bg-dark text-center rounded">
-                  <h3 className="text-muted">No Comments</h3>
-                </div>
-              )}
-              <div className="row">
-                <div className="col-md-6">
-                  <h5 className="my-3">Create new Comment</h5>
-                  <CommentForm postID={match.params.pid} user={authUser} />
+              <div className="py-3">
+                {comments && comments.length ? (
+                  comments.map(comment => (
+                    <CommentListItem
+                      key={comment.id}
+                      comment={comment}
+                      isPostOwner={post.uid === authUser.uid}
+                      isCommentOwner={comment.uid === authUser.uid}
+                      isRewarded={
+                        participants.has(comment.uid)
+                          ? participants.get(comment.uid).isRewarded
+                          : false
+                      }
+                    />
+                  ))
+                ) : (
+                  <div className="p-5 bg-dark text-center rounded">
+                    <h3 className="text-muted">No Comments</h3>
+                  </div>
+                )}
+                <div className="row">
+                  <div className="col-md-6">
+                    <h5 className="my-3">Create new Comment</h5>
+                    <CommentForm postID={match.params.pid} user={authUser} />
+                  </div>
                 </div>
               </div>
-            </div>
-          </React.Fragment>
-        )}
+            </React.Fragment>
+          )
+        }
       </StoreConsumer>
     )
   }
