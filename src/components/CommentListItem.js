@@ -36,7 +36,12 @@ class CommentListItem extends Component {
   }
 
   render() {
-    const { comment, isRewarded, isPostOwner, isCommentOwner } = this.props
+    const {
+      comment,
+      isRewarded,
+      isRewardButtonDisplayed,
+      isPostOwner
+    } = this.props
     const { isSubmitting } = this.state
     const avatarSize = 60
 
@@ -47,7 +52,7 @@ class CommentListItem extends Component {
           <div className="ml-3 d-flex-column">
             <Body>{comment.body}</Body>
             <div className="text-muted">by {comment.author}</div>
-            {(isPostOwner && isCommentOwner) || (
+            {!isRewardButtonDisplayed || (
               <RewardButton
                 className={`mt-3 btn ${
                   isRewarded ? 'btn-success' : 'btn-outline-secondary'
