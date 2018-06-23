@@ -9,7 +9,7 @@ export const handleAddFriendWithOtp = async (
   const friends = await queryUser(['otp', '==', otp])
   if (friends.length > 0) {
     const friend = friends[0]
-    const hasThisFriend = getFriend(myUser.uid, friend.uid)
+    const hasThisFriend = await getFriend(myUser.uid, friend.uid)
 
     if (!hasThisFriend) {
       setFriend(myUser.uid, friend)
