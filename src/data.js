@@ -107,14 +107,12 @@ export const createComment = (pid, comment) =>
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   })
 
-export const onAchievementsChanged = (uid, callback) => {
+export const onAchievementsChanged = (uid, callback) =>
   firestore
     .collection(`achievements`)
     .where('uid', '==', uid)
     .onSnapshot(snapshot => {
       const achievements = []
       snapshot.forEach(doc => achievements.push({ id: doc.id, ...doc.data() }))
-      console.log(typeof callback)
       callback(achievements)
     })
-}
