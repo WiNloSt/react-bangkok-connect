@@ -104,7 +104,27 @@ export const createComment = (pid, comment) =>
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   })
 
-export const onAchievementsChanged = (uid, callback) =>
+export const createParticipant = (pid, user) =>
+  firestore
+    .collection(`posts/${pid}/participants`)
+    .doc(user.uid)
+    .set({
+      ...user,
+      isRewarded: false,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    })
+
+export const rewardParticipant = (pid, uid, isRewarded) =>
+  firestore
+    .collection(`posts/${pid}/participants`)
+    .doc(uid)
+    .update({
+      isRewarded,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    })
+
+export const onAchievementsChanged = (uid, callback) => {
   firestore
     .collection(`achievements`)
     .where('uid', '==', uid)
