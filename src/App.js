@@ -126,7 +126,7 @@ class App extends Component {
               </Center>
             ) : (
               <React.Fragment>
-                <Instruction />
+                {/* <Instruction /> */}
                 <Nav onLogout={this.logout} />
                 <Switch>
                   <Redirect from="/" exact to="/dashboard" />
