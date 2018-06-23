@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Toggle } from 'react-powerplug'
 
 const Modal = styled(UnstyledModal)`
-  max-height: 600px;
+  height: 500px;
   width: 100%;
   max-width: 500px;
 
@@ -15,6 +15,11 @@ const Modal = styled(UnstyledModal)`
   margin-left: auto;
   margin-right: auto;
   padding: 1rem;
+
+  display: inline-flex;
+  vertical-align: middle;
+  flex-direction: column;
+  align-items: center;
 `
 
 const Header = styled.h1`
@@ -35,20 +40,13 @@ export const Instruction = () => {
           contentLabel="Application usage instruction"
           overlayClassName="ReactModal__Overlay"
         >
-          <Header>
-            Instruction
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <button className="btn btn-primary" onClick={() => setOn(false)}>
-              Exit
-            </button>
-          </Header>
+          <Header>Instruction</Header>
+          <button
+            className="btn btn-primary mt-auto w-25"
+            onClick={() => setOn(false)}
+          >
+            Exit
+          </button>
         </Modal>
       )}
     </Toggle>

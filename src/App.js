@@ -40,11 +40,6 @@ html, body, #root {
   overflow-y: auto;
   text-align: center;
 
-  > * {
-    display: inline-block;
-    vertical-align: middle;
-  }
-
   ::after {
     content: '';
     display: inline-block;
@@ -126,7 +121,7 @@ class App extends Component {
               </Center>
             ) : (
               <React.Fragment>
-                {/* <Instruction /> */}
+                <Instruction />
                 <Nav onLogout={this.logout} />
                 <Switch>
                   <Redirect from="/" exact to="/dashboard" />
