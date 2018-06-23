@@ -23,6 +23,10 @@ const Header = styled.h1`
 `
 
 export const Instruction = () => {
+  const isModalShowedBefore = localStorage.modalShown
+  if (isModalShowedBefore) return null
+
+  // localStorage.modalShown = true
   return (
     <Toggle initial={true}>
       {({ on, setOn }) => (
@@ -30,8 +34,6 @@ export const Instruction = () => {
           isOpen={on}
           contentLabel="Application usage instruction"
           overlayClassName="ReactModal__Overlay"
-          shouldCloseOnOverlayClick={false}
-          onRequestClose={() => setOn(false)}
         >
           <Header>
             Instruction
@@ -43,7 +45,9 @@ export const Instruction = () => {
             <br />
             <br />
             <br />
-            wow
+            <button className="btn btn-primary" onClick={() => setOn(false)}>
+              Exit
+            </button>
           </Header>
         </Modal>
       )}
