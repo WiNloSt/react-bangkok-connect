@@ -14,17 +14,19 @@ import Avatar from './Avatar'
 import { Toggle } from 'react-powerplug'
 import { createKeyframeAnimation } from './Friends/util'
 
+const desktop = 992
+
 const Desktop = styled.div`
   display: none;
 
-  @media only screen and (min-width: 768px) {
+  @media only screen and (min-width: ${desktop}px) {
     display: block;
   }
 `
 
 const BelowDesktop = styled.div`
   order: 1;
-  @media only screen and (min-width: 768px) {
+  @media only screen and (min-width: ${desktop}px) {
     display: none;
   }
 `
@@ -170,9 +172,12 @@ export const Nav = ({ onLogout }) => (
 
             {authUser && (
               <React.Fragment>
-                <Avatar className="ml-auto" size={32} url={authUser.photoURL} />
+                <Avatar className="ml-auto" size={48} url={authUser.photoURL} />
                 <li>
-                  <button className="btn btn-link px-2 py-1" onClick={onLogout}>
+                  <button
+                    className="btn btn-link px-2 py-1 ml-2 h-100"
+                    onClick={onLogout}
+                  >
                     Logout
                   </button>
                 </li>
