@@ -78,7 +78,7 @@ class App extends Component {
     this.setState({ authUser })
     setUserData(authUser)
     createOtpForUserIfNotExist(authUser)
-    updateUserProfileUrlIfRedirectedFromFacebook()
+    // updateUserProfileUrlIfRedirectedFromFacebook()
   }
 
   handleNonLoggedIn() {

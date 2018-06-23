@@ -15,11 +15,11 @@ function FriendListItem(props) {
         </div>
         <a
           className="btn btn-primary btn-sm"
-          href={friend.profileURL}
+          href={`https://www.facebook.com/search/str/${friend.name.toLowerCase()}/keywords_users`}
           target="_blank"
           role="button"
         >
-          Facebook profile
+          Find Facebook profile
         </a>
       </div>
     </div>

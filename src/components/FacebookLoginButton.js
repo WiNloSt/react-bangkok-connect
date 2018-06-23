@@ -27,7 +27,7 @@ const Span = styled.span`
 class FacebookLoginButton extends Component {
   login = async () => {
     const provider = new firebase.auth.FacebookAuthProvider()
-    provider.addScope('user_link')
+    // provider.addScope('user_link')
 
     try {
       firebase.auth().signInWithRedirect(provider)
