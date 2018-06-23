@@ -13,7 +13,7 @@ class Board extends Component {
         <div className="d-flex align-items-center py-3">
           <div className="ml-auto">
             <Link to="/posts/create" className="btn btn-primary">
-              Create Post
+              Create Thread
             </Link>
           </div>
         </div>
