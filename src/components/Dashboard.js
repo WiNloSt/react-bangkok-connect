@@ -6,11 +6,18 @@ import { StoreConsumer } from '../store'
 import Avatar from './Avatar'
 import AchievementListItem from './AchievementListItem'
 
-const DisplayName = styled.h5``
+const Container = styled.div`
+  margin: 0 auto;
+  max-width: 500px;
+`
 
 const Point = styled.div`
   text-align: center;
   color: #00d8ff;
+`
+
+const Name = styled.div`
+  font-size: 20px;
 `
 
 const AchievementContainer = styled.div`
@@ -33,13 +40,13 @@ function Dashboard(props) {
 
         return (
           <div className="container">
-            <div className="col-md-4 offset-md-4">
+            <Container>
               <Avatar
                 className="mt-4"
                 url={authUser.photoURL}
                 size={avatarSize}
               />
-              <DisplayName className="py-4">{authUser.displayName}</DisplayName>
+              <Name className="py-4">{authUser.displayName}</Name>
 
               <Point className="pb-4">
                 <h3>
@@ -60,7 +67,7 @@ function Dashboard(props) {
                   badgeCount={totalCollectedBounties}
                 />
               </AchievementContainer>
-            </div>
+            </Container>
           </div>
         )
       }}
