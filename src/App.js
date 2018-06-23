@@ -42,7 +42,7 @@ html, body, #root {
   padding: 1rem;
   overflow-y: auto;
   text-align: center;
-  
+
   > * {
     display: inline-block;
     vertical-align: middle;
@@ -134,13 +134,13 @@ class App extends Component {
                 <Switch>
                   <Redirect from="/" exact to="/dashboard" />
                   <Route path="/posts" component={Board} />
-                  <Route path="/quests" component={Quests} />
                   <Route path="/dashboard">
                     <Dashboard user={this.state.authUser} />
                   </Route>
                   <Route path="/friends">
                     <Friends user={this.state.authUser} />
                   </Route>
+                  <Redirect to="/" />
                 </Switch>
               </React.Fragment>
             )}
