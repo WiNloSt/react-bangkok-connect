@@ -160,11 +160,6 @@ export const Nav = ({ onLogout }) => (
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link px-3 py-2 mx-2" to="/quests">
-                Quests
-              </NavLink>
-            </li>
-            <li className="nav-item">
               <NavLink className="nav-link px-3 py-2 mx-2" to="/friends">
                 Friends
               </NavLink>
@@ -215,9 +210,6 @@ export const Nav = ({ onLogout }) => (
               </NavLink>
               <NavLink to="/posts">
                 <FontAwesomeIcon icon={faChalkboard} />
-              </NavLink>
-              <NavLink to="/quests">
-                <FontAwesomeIcon icon={faQuestion} style={{ fontSize: 18 }} />
               </NavLink>
               <NavLink to="/friends">
                 <FontAwesomeIcon
