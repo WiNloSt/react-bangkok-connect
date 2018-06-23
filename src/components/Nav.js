@@ -32,9 +32,18 @@ const BelowDesktop = styled.div`
 `
 
 const NavLink = styled(UnStyledNavLink)`
-  &.active > svg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+
+  &.active {
     color: #007bff;
   }
+`
+
+const IconText = styled.div`
+  font-size: 10px;
 `
 
 const TabMenu = styled.div`
@@ -207,15 +216,18 @@ export const Nav = ({ onLogout }) => (
             <div>
               <NavLink to="/dashboard">
                 <FontAwesomeIcon icon={faHome} style={{ fontSize: 18 }} />
+                <IconText>Dashbord</IconText>
               </NavLink>
               <NavLink to="/posts">
                 <FontAwesomeIcon icon={faChalkboard} />
+                <IconText>Board</IconText>
               </NavLink>
               <NavLink to="/friends">
                 <FontAwesomeIcon
                   icon={faUserFriends}
                   style={{ fontSize: 17 }}
                 />
+                <IconText>Friends</IconText>
               </NavLink>
             </div>
           </TabMenu>
