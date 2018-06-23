@@ -16,6 +16,7 @@ import { ReactLoader } from './components/Loader'
 import { Nav } from './components/Nav'
 import { Login } from './components/Login'
 import { setUser } from './data'
+import { Instruction } from './components/Instruction'
 
 injectGlobal`
 html, body, #root {
@@ -24,6 +25,35 @@ html, body, #root {
   height: 100%;
   background: #333;
   color: white;
+}
+
+.ReactModal__Body--open {
+  overflow: hidden;
+}
+
+.ReactModal__Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0, 0.75);
+  z-index: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  text-align: center;
+  
+  > * {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  ::after {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align:middle;
+  }
 }
 `
 
@@ -99,6 +129,7 @@ class App extends Component {
               </Center>
             ) : (
               <React.Fragment>
+                <Instruction />
                 <Nav onLogout={this.logout} />
                 <Switch>
                   <Redirect from="/" exact to="/dashboard" />
