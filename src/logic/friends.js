@@ -16,14 +16,11 @@ export const handleAddFriendWithOtp = async (
       generateAndSaveOtpToDb(friend.uid)
       console.log('friend added')
       setSuccessMessage('Friend added!!!')
-      setTimeout(() => setSuccessMessage(''), 3000)
     } else {
       setErrorMessage('You already added this friend')
-      setTimeout(() => setErrorMessage(''), 3000)
     }
   } else {
     console.log('no user with this otp')
     setErrorMessage('User not found')
-    setTimeout(() => setErrorMessage(''), 3000)
   }
 }
