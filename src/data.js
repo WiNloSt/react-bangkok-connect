@@ -3,6 +3,8 @@ import firebase from 'firebase/app'
 const firestore = firebase.firestore()
 firestore.settings({ timestampsInSnapshots: true })
 
+const returnDocOrNull = doc => (doc.exists ? doc.data() : null)
+
 function getDataFromSnapshotQuery(snapshot) {
   return snapshot.docs.map(doc => Object.assign({ id: doc.id }, doc.data()))
 }
@@ -13,16 +15,16 @@ export const queryUser = query =>
     .where(...query)
     .get()
     .then(snapshot => {
-      let docDatas = []
-      snapshot.forEach(doc => docDatas.push(doc.data()))
-      return docDatas[0]
+      let users = []
+      snapshot.forEach(doc => users.push(doc.data()))
+      return users
     })
 
 export const getUser = uid =>
   firestore
     .doc(`users/${uid}`)
     .get()
-    .then(doc => (doc.exists ? doc.data() : null))
+    .then(returnDocOrNull)
 
 export const onUserChanged = (uid, callback) =>
   firestore.doc(`users/${uid}`).onSnapshot(doc => {
@@ -34,19 +36,14 @@ export const setUser = (uid, data = {}) =>
 
 export const getOtp = otp => {
   const otpRef = firestore.doc(`otps/${otp}`)
-  return otpRef.get().then(doc => (doc.exists ? doc.data() : null))
+  return otpRef.get().then(returnDocOrNull)
 }
 
-export const setOtp = (otp, data = {}) => {
-  firestore.doc(`otps/${otp}`).set(data, { merge: true })
-}
-
-export const deleteOtp = otp =>
+export const getFriend = (uid, friendId) =>
   firestore
-    .doc(`otps/${otp}`)
-    .delete()
-    .then(() => console.log('delete otp: ' + otp))
-    .catch(error => console.error('can not delete otp: ' + otp, error))
+    .doc(`users/${uid}/friends/${friendId}`)
+    .get()
+    .then(returnDocOrNull)
 
 export const getFriends = uid =>
   firestore

@@ -4,11 +4,7 @@ import styled from 'styled-components'
 import { Toggle, State } from 'react-powerplug'
 
 import { StoreConsumer } from '../../store'
-import {
-  createKeyframeAnimation,
-  getCurrentOtpValue,
-  clearOtpValue
-} from './util'
+import { getCurrentOtpValue, clearOtpValue } from './util'
 import { handleAddFriendWithOtp } from '../../logic/friends'
 import { DefaultLoader } from '../Loader'
 
@@ -108,7 +104,7 @@ const createHandleKeyDown = (
       } else {
         // is my own OTP
         setErrorMessage('You just entered your own code')
-        setTimeout(() => setErrorMessage(''), 4000)
+        setTimeout(() => setErrorMessage(''), 3000)
         clearOtpValue(formRef.current)
         firstInputNode.focus()
       }
