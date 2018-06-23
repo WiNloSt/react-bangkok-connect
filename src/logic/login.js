@@ -1,4 +1,4 @@
-import { getOtp, setOtp, getUser, setUser } from '../data'
+import { getUser, setUser, queryUser } from '../data'
 
 export const setUserData = async authUser => {
   const { displayName, photoURL, uid } = authUser
@@ -18,17 +18,14 @@ export async function generateAndSaveOtpToDb(uid) {
   while (await otpExists(otp)) {
     otp = generateOtp()
   }
-  setOtp(otp, {
-    user: uid
-  })
   setUser(uid, {
     otp
   })
 }
 
 async function otpExists(otp) {
-  const otpFromDb = await getOtp(otp)
-  return otpFromDb === otp
+  const users = await queryUser(['otp', '==', otp])
+  return users.length > 0
 }
 
 function generateOtp() {

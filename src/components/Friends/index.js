@@ -4,13 +4,10 @@ import styled from 'styled-components'
 import { Toggle, State } from 'react-powerplug'
 
 import { StoreConsumer } from '../../store'
-import {
-  createKeyframeAnimation,
-  getCurrentOtpValue,
-  clearOtpValue
-} from './util'
+import { getCurrentOtpValue, clearOtpValue } from './util'
 import { handleAddFriendWithOtp } from '../../logic/friends'
 import { DefaultLoader } from '../Loader'
+import { debounce } from '../../libs'
 
 const cardHeight = 200
 const animationDuration = 300
@@ -108,7 +105,6 @@ const createHandleKeyDown = (
       } else {
         // is my own OTP
         setErrorMessage('You just entered your own code')
-        setTimeout(() => setErrorMessage(''), 4000)
         clearOtpValue(formRef.current)
         firstInputNode.focus()
       }
@@ -128,6 +124,7 @@ const createHandleKeyDown = (
 let formRef = React.createRef()
 let firstInputNode
 
+let debouncedClearMessage
 const AddFriendSection = ({ className }) => (
   <StoreConsumer>
     {({ user }) => (
@@ -135,9 +132,22 @@ const AddFriendSection = ({ className }) => (
         {({ state, setState }) => {
           const { loading, errorMessage, successMessage } = state
           const setLoading = loading => setState({ loading })
-          const setErrorMessage = errorMessage => setState({ errorMessage })
-          const setSuccessMessage = successMessage =>
-            setState({ successMessage })
+          debouncedClearMessage =
+            debouncedClearMessage ||
+            debounce(() => {
+              setState({
+                errorMessage: '',
+                successMessage: ''
+              })
+            }, 3000)
+          const setErrorMessage = errorMessage => {
+            setState({ errorMessage, successMessage: '' })
+            debouncedClearMessage()
+          }
+          const setSuccessMessage = successMessage => {
+            setState({ successMessage, errorMessage: '' })
+            debouncedClearMessage()
+          }
           return (
             <CollapsableSection className={'card m-auto parent ' + className}>
               {loading && <DefaultLoader />}
