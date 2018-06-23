@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 
 import { rewardParticipant } from '../data'
+import { debounce } from '../libs'
 import Avatar from './Avatar'
 
 const Body = styled.p`
@@ -30,9 +31,13 @@ class CommentListItem extends Component {
 
     await rewardParticipant(pid, uid, !isRewarded)
 
-    this.setState({
-      isSubmitting: false
-    })
+    debounce(
+      () =>
+        this.setState({
+          isSubmitting: false
+        }),
+      1000
+    )()
   }
 
   render() {
