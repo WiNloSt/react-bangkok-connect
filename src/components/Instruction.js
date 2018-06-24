@@ -3,6 +3,7 @@ import UnstyledModal from 'react-modal'
 import styled from 'styled-components'
 
 import { Toggle, Value } from 'react-powerplug'
+import { StoreConsumer } from '../store'
 
 const Content = styled.div`
   text-align: left;
@@ -103,52 +104,70 @@ const pages = [
         once you've add them as your friend.
       </li>
     </ul>
+  </Content>,
+  <Content>
+    <p>
+      You can access this instruction page anytime by clicking "Help" in
+      navigation bar
+    </p>
   </Content>
 ]
 
 export const Instruction = () => {
-  const isModalShowedBefore = localStorage.modalShown
-  if (isModalShowedBefore) return null
-
-  // localStorage.modalShown = true
   return (
-    <Toggle initial={true}>
-      {({ on, setOn }) => (
-        <Value initial={0}>
-          {({ value: page, setValue }) => {
-            const goToNextPage = e => {
-              setValue(page + 1)
-            }
-            const isLastPage = page === pages.length - 1
-            return (
-              <Modal
-                ariaHideApp={false}
-                isOpen={on}
-                contentLabel="Application usage instruction"
-                overlayClassName="ReactModal__Overlay"
-              >
-                <Header>Instruction</Header>
-                {pages[page]}
-                {isLastPage ? (
-                  <button
-                    className="btn btn-primary mt-auto w-25"
-                    onClick={() => setOn(false)}
-                  >
-                    Done
-                  </button>
-                ) : (
-                  <button
-                    className="btn btn-outline-primary mt-auto w-25"
-                    onClick={goToNextPage}
-                  >
-                    Next
-                  </button>
-                )}
-              </Modal>
-            )
-          }}
-        </Value>
-      )}
-    </Toggle>
+    <StoreConsumer>
+      {() => {
+        // const isModalShowedBefore = localStorage.modalShown
+        // if (isModalShowedBefore) {
+        //   return null
+        // }
+
+        return (
+          <Toggle initial={true}>
+            {({ on, setOn }) => (
+              <Value initial={0}>
+                {({ value: page, setValue }) => {
+                  const closeModal = () => {
+                    localStorage.modalShown = true
+                    setOn(false)
+                  }
+
+                  const goToNextPage = e => {
+                    setValue(page + 1)
+                  }
+                  const isLastPage = page === pages.length - 1
+                  return (
+                    <Modal
+                      ariaHideApp={false}
+                      isOpen={on}
+                      contentLabel="Application usage instruction"
+                      overlayClassName="ReactModal__Overlay"
+                    >
+                      <Header>Instruction</Header>
+                      {pages[page]}
+                      {isLastPage ? (
+                        <button
+                          className="btn btn-primary mt-auto w-25"
+                          onClick={closeModal}
+                        >
+                          Done
+                        </button>
+                      ) : (
+                        <button
+                          className="btn btn-outline-primary mt-auto w-25"
+                          onClick={goToNextPage}
+                        >
+                          Next
+                        </button>
+                      )}
+                    </Modal>
+                  )
+                }}
+              </Value>
+            )}
+          </Toggle>
+        )
+      }}
+    </StoreConsumer>
   )
 }

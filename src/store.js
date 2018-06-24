@@ -4,9 +4,15 @@ import { onUserChanged, onFriendsChanged, onAchievementsChanged } from './data'
 
 const context = React.createContext()
 
-const ACTIONS = {}
+const ACTIONS = {
+  FORCE_RENDER: 'FORCE_RENDER'
+}
 
-export const actions = {}
+export const actions = {
+  forceRender: () => ({
+    type: ACTIONS.FORCE_RENDER
+  })
+}
 
 export class StoreProvider extends React.Component {
   state = {
@@ -18,6 +24,9 @@ export class StoreProvider extends React.Component {
   unsubscribeList = []
 
   stateReducer = (state, action) => {
+    if (action.type === ACTIONS.FORCE_RENDER) {
+      return R.merge(state, { dummy: Math.random() })
+    }
     return state
   }
 

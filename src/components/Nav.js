@@ -9,7 +9,7 @@ import {
   faHome
 } from '@fortawesome/free-solid-svg-icons'
 
-import { StoreConsumer } from '../store'
+import { StoreConsumer, actions } from '../store'
 import Avatar from './Avatar'
 import { Toggle } from 'react-powerplug'
 import { createKeyframeAnimation } from './Friends/util'
@@ -229,6 +229,22 @@ export const Nav = ({ onLogout }) => (
                 />
                 <IconText>Friends</IconText>
               </NavLink>
+              {/* <StoreConsumer>
+                {({ dispatch }) => (
+                  <a
+                    onClick={() => {
+                      dispatch(actions.forceRender())
+                      localStorage.removeItem('modalShown')
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faQuestion}
+                      style={{ fontSize: 17 }}
+                    />
+                    <IconText>Help</IconText>
+                  </a>
+                )}
+              </StoreConsumer> */}
             </div>
           </TabMenu>
           <TabMenuOffset />
