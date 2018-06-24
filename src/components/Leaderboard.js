@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import { getUserScores, getUser } from '../data'
 import LeaderboardListItem from './LeaderboardListItem'
+import { Prizes } from './Prizes'
 
 const LeaderBoardContainer = styled.div`
   margin-top: 30px;
@@ -51,14 +52,15 @@ class Leaderboard extends Component {
 
     return (
       <React.Fragment>
-        <h1 className="text-center">Top 10 Leaderboard</h1>
+        {/* <h1 className="text-center">Top 10 Leaderboard</h1>
         <div className="container p-3 text-left" style={{ maxWidth: '400px' }}>
           <LeaderBoardContainer>
             {topTen.map((user, index) => (
               <LeaderboardListItem key={index} user={user} />
             ))}
           </LeaderBoardContainer>
-        </div>
+        </div> */}
+        <Prizes candidates={this.state.topTen} />
       </React.Fragment>
     )
   }

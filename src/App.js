@@ -123,20 +123,29 @@ class App extends Component {
               </Center>
             ) : (
               <React.Fragment>
-                <Instruction />
-                <Nav onLogout={this.logout} />
                 <Switch>
-                  <Redirect from="/" exact to="/dashboard" />
-                  <Route path="/posts" component={Board} />
-                  <Route path="/dashboard">
-                    <Dashboard user={this.state.authUser} />
-                  </Route>
-                  <Route path="/friends">
-                    <Friends user={this.state.authUser} />
-                  </Route>
                   <Route path="/liveleaderboard" component={LiveLeaderboard} />
                   <Route path="/leaderboard" component={Leaderboard} />
-                  <Redirect to="/" />
+                  <Route
+                    path="/"
+                    render={() => (
+                      <React.Fragment>
+                        <Instruction />
+                        <Nav onLogout={this.logout} />
+                        <Switch>
+                          <Redirect from="/" exact to="/dashboard" />
+                          <Route path="/posts" component={Board} />
+                          <Route path="/dashboard">
+                            <Dashboard user={this.state.authUser} />
+                          </Route>
+                          <Route path="/friends">
+                            <Friends user={this.state.authUser} />
+                          </Route>
+                          <Redirect to="/" />
+                        </Switch>
+                      </React.Fragment>
+                    )}
+                  />
                 </Switch>
               </React.Fragment>
             )}

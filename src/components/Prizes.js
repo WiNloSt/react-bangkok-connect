@@ -51,14 +51,24 @@ const WinnerContainer = styled.div`
 
 const Winner = ({ user }) => (
   <WinnerContainer>
-    <img src={user.photo} alt={`${user.name}`} />
+    <img src={user.photoURL + '?width=64&height=64'} alt={`${user.name}`} />
     {user.name}
   </WinnerContainer>
 )
 
 export class Prizes extends React.Component {
   state = {
-    index: 0
+    index: 0,
+    candidates: this.props.candidates.slice(0, 3) || [],
+    currentWinner: null
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.candidates.length > 0) {
+      this.setState({
+        candidates: nextProps.candidates.slice(0, 3)
+      })
+    }
   }
 
   _random = () =>
@@ -66,7 +76,8 @@ export class Prizes extends React.Component {
       let index = state.index
       while (index === state.index) {
         index =
-          Math.floor(Math.random() * candidates.length) % candidates.length
+          Math.floor(Math.random() * this.state.candidates.length) %
+          this.state.candidates.length
       }
       return {
         index
@@ -74,6 +85,7 @@ export class Prizes extends React.Component {
     })
 
   random = (_, timeout = 1) => {
+    this.setState({ currentWinner: null })
     console.log(timeout)
     const isFirstClick = timeout === 1
     if (isFirstClick) {
@@ -81,7 +93,20 @@ export class Prizes extends React.Component {
       const to = 1200
       this.timeout = Math.floor(Math.random() * (to - from) + from)
     }
+
     if (timeout >= this.timeout) {
+      // exit
+      if (this.state.candidates.length > 1) {
+        this.setState(() => ({
+          currentWinner: this.state.candidates[this.state.index]
+        }))
+        this.setState(state => ({
+          candidates: [
+            ...state.candidates.slice(0, this.state.index),
+            ...state.candidates.slice(this.state.index + 1)
+          ]
+        }))
+      }
       return
     }
     setTimeout(() => {
@@ -92,15 +117,24 @@ export class Prizes extends React.Component {
   }
 
   render() {
+    console.log(this.state)
+    const { candidates, currentWinner } = this.state
+    const candidate = candidates[this.state.index]
     return (
       <Container>
         <div className="d-none">
           {candidates.map(candidate => (
-            <Winner key={candidate.name} user={candidate} />
+            <Winner key={candidate.uid} user={candidate} />
           ))}
         </div>
         <div>
-          <Winner user={candidates[this.state.index]} />
+          <div style={{ fontSize: 32 }} className="mt-3">
+            Prize:{' '}
+            {(this.state.currentWinner ? 1 : 0) + this.state.candidates.length}
+          </div>
+          {(currentWinner || candidate) && (
+            <Winner user={currentWinner || candidate} />
+          )}
           <div className="mt-3">
             <button className="btn btn-primary" onClick={this.random}>
               Random
