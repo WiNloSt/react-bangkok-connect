@@ -178,7 +178,7 @@ export const Nav = ({ onLogout }) => (
                 className="nav-link px-3 py-2 mx-2"
                 to="/liveleaderboard"
               >
-                LeaderBoard
+                Leaderboard
               </NavLink>
             </li>
 
