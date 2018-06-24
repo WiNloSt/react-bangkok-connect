@@ -16,6 +16,7 @@ import { Login } from './components/Login'
 import { Instruction } from './components/Instruction'
 import LiveLeaderboard from './components/LiveLeaderboard'
 import Leaderboard from './components/Leaderboard'
+import Leaderboard2 from './components/Leaderboard2'
 
 injectGlobal`
 html, body, #root {
@@ -126,6 +127,7 @@ class App extends Component {
                 <Switch>
                   <Route path="/liveleaderboard" component={LiveLeaderboard} />
                   <Route path="/leaderboard" component={Leaderboard} />
+                  <Route path="/leaderboard2" component={Leaderboard2} />
                   <Route
                     path="/"
                     render={() => (

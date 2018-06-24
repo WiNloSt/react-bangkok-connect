@@ -52,15 +52,15 @@ class Leaderboard extends Component {
 
     return (
       <React.Fragment>
-        <h1 className="text-center">Top 10 Leaderboard</h1>
+        {/* <h1 className="text-center">Top 10 Leaderboard</h1>
         <div className="container p-3 text-left" style={{ maxWidth: '400px' }}>
           <LeaderBoardContainer>
             {topTen.map((user, index) => (
               <LeaderboardListItem key={index} user={user} />
             ))}
           </LeaderBoardContainer>
-        </div>
-        {/* <Prizes candidates={this.state.topTen} /> */}
+        </div> */}
+        <Prizes candidates={this.state.topTen} />
       </React.Fragment>
     )
   }
