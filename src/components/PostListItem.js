@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link as UnstyledLink } from 'react-router-dom'
 import styled from 'styled-components'
+import { DateTime } from 'luxon'
 
 import Avatar from './Avatar'
 
@@ -29,6 +30,9 @@ class PostListItem extends Component {
   render() {
     const { post, compact } = this.props
     const avatarSize = 100
+    const postedAt =
+      post.createdAt &&
+      DateTime.fromJSDate(post.createdAt.toDate()).toFormat('ff')
 
     const content = (
       <div className="d-flex p-3 mb-3 bg-dark rounded">
@@ -42,6 +46,8 @@ class PostListItem extends Component {
                 <h4>{post.title}</h4>
               )}
               <span className="text-muted">by {post.author}</span>
+              {' - '}
+              <span className="text-muted">{postedAt}</span>
               <span className="pl-3">{post.commentCount}</span>
             </div>
           </div>
