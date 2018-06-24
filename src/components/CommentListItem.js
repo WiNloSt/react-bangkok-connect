@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { rewardParticipant } from '../data'
 import { debounce } from '../libs'
 import Avatar from './Avatar'
+import { DateTime } from 'luxon'
 
 const Body = styled.p`
   white-space: pre-wrap;
@@ -49,6 +50,9 @@ class CommentListItem extends Component {
     } = this.props
     const { isSubmitting } = this.state
     const avatarSize = 60
+    const commentedAt =
+      comment.createdAt &&
+      DateTime.fromJSDate(comment.createdAt.toDate()).toFormat('ff')
 
     return (
       <div className="bg-dark p-3 mb-3">
@@ -56,7 +60,11 @@ class CommentListItem extends Component {
           <Avatar url={comment.photoURL} size={avatarSize} />
           <div className="ml-3 d-flex-column">
             <Body>{comment.body}</Body>
-            <div className="text-muted">by {comment.author}</div>
+            <div>
+              <span className="text-muted">by {comment.author}</span>
+              {' - '}
+              <span className="text-muted">{commentedAt}</span>
+            </div>
             {!isRewardButtonDisplayed || (
               <RewardButton
                 className={`mt-3 btn ${
