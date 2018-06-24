@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
-import { Link, Route, Switch } from 'react-router-dom'
+import { Link as UnstyledLink, Route, Switch } from 'react-router-dom'
+import styled from 'styled-components'
 
 import PostCreate from './PostCreate'
 import PostList from './PostList'
 import PostDetail from './PostDetail'
+
+const Button = styled.button`
+  background-color: white;
+`
 
 class Board extends Component {
   render() {
@@ -11,11 +16,27 @@ class Board extends Component {
       <div className="container p-3 text-left">
         <h1 className="text-center">Boards</h1>
         <div className="d-flex align-items-center py-3">
-          <div className="ml-auto">
-            <Link to="/posts/create" className="btn btn-primary">
-              Create Post
-            </Link>
-          </div>
+          <Route
+            exact
+            path="/posts"
+            render={() => (
+              <div className="ml-auto">
+                <UnstyledLink to="/posts/create">
+                  <button className="btn btn-primary">Create Thread</button>
+                </UnstyledLink>
+              </div>
+            )}
+          />
+          <Route
+            path="/posts/*"
+            render={() => (
+              <div className="mr-auto">
+                <UnstyledLink to="/posts">
+                  <Button className="btn btn-outline-primary">Go Back</Button>
+                </UnstyledLink>
+              </div>
+            )}
+          />
         </div>
 
         <Switch>
