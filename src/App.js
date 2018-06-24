@@ -14,6 +14,7 @@ import { ReactLoader } from './components/Loader'
 import { Nav } from './components/Nav'
 import { Login } from './components/Login'
 import { Instruction } from './components/Instruction'
+import { Prizes } from './components/Prizes'
 
 injectGlobal`
 html, body, #root {
@@ -120,21 +121,29 @@ class App extends Component {
                 <Login />
               </Center>
             ) : (
-              <React.Fragment>
-                <Instruction />
-                <Nav onLogout={this.logout} />
-                <Switch>
-                  <Redirect from="/" exact to="/dashboard" />
-                  <Route path="/posts" component={Board} />
-                  <Route path="/dashboard">
-                    <Dashboard user={this.state.authUser} />
-                  </Route>
-                  <Route path="/friends">
-                    <Friends user={this.state.authUser} />
-                  </Route>
-                  <Redirect to="/" />
-                </Switch>
-              </React.Fragment>
+              <Switch>
+                <Route path="/prizes" component={Prizes} />
+                <Route
+                  path="/"
+                  render={() => (
+                    <React.Fragment>
+                      <Instruction />
+                      <Nav onLogout={this.logout} />
+                      <Switch>
+                        <Redirect from="/" exact to="/dashboard" />
+                        <Route path="/posts" component={Board} />
+                        <Route path="/dashboard">
+                          <Dashboard user={this.state.authUser} />
+                        </Route>
+                        <Route path="/friends">
+                          <Friends user={this.state.authUser} />
+                        </Route>
+                        <Redirect to="/" />
+                      </Switch>
+                    </React.Fragment>
+                  )}
+                />
+              </Switch>
             )}
           </AppStyle>
         </Router>
