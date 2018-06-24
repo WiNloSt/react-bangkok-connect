@@ -59,14 +59,14 @@ const Winner = ({ user }) => (
 export class Prizes extends React.Component {
   state = {
     index: 0,
-    candidates: this.props.candidates.slice(0, 3) || [],
+    candidates: this.props.candidates || [],
     currentWinner: null
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.candidates.length > 0) {
       this.setState({
-        candidates: nextProps.candidates.slice(0, 3)
+        candidates: nextProps.candidates
       })
     }
   }
