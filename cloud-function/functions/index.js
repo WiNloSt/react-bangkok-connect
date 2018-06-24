@@ -5,6 +5,7 @@ const functions = require('firebase-functions')
 admin.initializeApp(functions.config().firebase)
 
 const firestore = admin.firestore()
+const FieldValue = admin.firestore.FieldValue
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
@@ -18,7 +19,8 @@ exports.createFriendAcheivement = functions.firestore
     firestore.collection('achievements').add({
       type: 'networking',
       uid: context.params.userID,
-      fid: context.params.friendID
+      fid: context.params.friendID,
+      createdAt: FieldValue.serverTimestamp()
     })
   }))
 
@@ -33,7 +35,8 @@ exports.createBountyAchievement = functions.firestore
         firestore.collection('achievements').add({
           type: 'bounty',
           uid: context.params.participantID,
-          pid: context.params.postID
+          pid: context.params.postID,
+          createdAt: FieldValue.serverTimestamp()
         })
       } else {
         firestore.collection('achievements')
