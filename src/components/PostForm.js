@@ -63,20 +63,6 @@ class PostForm extends Component {
           rows={5}
           required
         />
-        <Input
-          type="select"
-          name="tag"
-          label="Tag"
-          value={post.tag}
-          handleInputChanged={this.handleInputChanged}
-          required
-        >
-          {tags.map((tag, index) => (
-            <option key={index} value={tag.value}>
-              {tag.value}
-            </option>
-          ))}
-        </Input>
         <button type="submit" className="btn btn-primary">
           Submit
         </button>

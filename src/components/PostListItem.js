@@ -22,12 +22,8 @@ class PostListItem extends Component {
 
           {compact || <p className="mt-3">{post.description}</p>}
 
-          <div className="mt-3 mb-3">
-            <span className="badge badge-primary">{post.tag}</span>
-          </div>
-
           {compact && (
-            <Link className="btn btn-info mr-2" to={`/posts/${post.id}`}>
+            <Link className="btn btn-info mr-2 mt-3" to={`/posts/${post.id}`}>
               View
             </Link>
           )}
