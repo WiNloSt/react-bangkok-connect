@@ -15,6 +15,7 @@ import { Nav } from './components/Nav'
 import { Login } from './components/Login'
 import { Instruction } from './components/Instruction'
 import LiveLeaderboard from './components/LiveLeaderboard'
+import Leaderboard from './components/Leaderboard'
 
 injectGlobal`
 html, body, #root {
@@ -134,6 +135,7 @@ class App extends Component {
                     <Friends user={this.state.authUser} />
                   </Route>
                   <Route path="/liveleaderboard" component={LiveLeaderboard} />
+                  <Route path="/leaderboard" component={Leaderboard} />
                   <Redirect to="/" />
                 </Switch>
               </React.Fragment>
