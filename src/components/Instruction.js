@@ -104,12 +104,6 @@ const pages = [
         once you've add them as your friend.
       </li>
     </ul>
-  </Content>,
-  <Content>
-    <p>
-      You can access this instruction page anytime by clicking "Help" in
-      navigation bar
-    </p>
   </Content>
 ]
 
@@ -117,10 +111,10 @@ export const Instruction = () => {
   return (
     <StoreConsumer>
       {() => {
-        // const isModalShowedBefore = localStorage.modalShown
-        // if (isModalShowedBefore) {
-        //   return null
-        // }
+        const isModalShowedBefore = localStorage.modalShown
+        if (isModalShowedBefore) {
+          return null
+        }
 
         return (
           <Toggle initial={true}>
