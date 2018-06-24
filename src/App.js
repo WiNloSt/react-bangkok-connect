@@ -3,19 +3,17 @@ import styled, { injectGlobal } from 'styled-components'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import firebase from 'firebase/app'
 import Promise from 'bluebird'
-import axios from 'axios'
 import Redirect from 'react-router-dom/Redirect'
 
 import Friends from './components/Friends'
 import Board from './components/Board'
 import Dashboard from './components/Dashboard'
-import { Quests } from './components/Quests'
 import { createOtpForUserIfNotExist, setUserData } from './logic/login'
 import { StoreProvider } from './store'
 import { ReactLoader } from './components/Loader'
 import { Nav } from './components/Nav'
 import { Login } from './components/Login'
-import { setUser } from './data'
+import { Instruction } from './components/Instruction'
 
 injectGlobal`
 html, body, #root {
@@ -24,6 +22,30 @@ html, body, #root {
   height: 100%;
   background: #333;
   color: white;
+}
+
+.ReactModal__Body--open {
+  overflow: hidden;
+}
+
+.ReactModal__Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0, 0.75);
+  z-index: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  text-align: center;
+
+  ::after {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align:middle;
+  }
 }
 `
 
@@ -99,17 +121,18 @@ class App extends Component {
               </Center>
             ) : (
               <React.Fragment>
+                <Instruction />
                 <Nav onLogout={this.logout} />
                 <Switch>
                   <Redirect from="/" exact to="/dashboard" />
                   <Route path="/posts" component={Board} />
-                  <Route path="/quests" component={Quests} />
                   <Route path="/dashboard">
                     <Dashboard user={this.state.authUser} />
                   </Route>
                   <Route path="/friends">
                     <Friends user={this.state.authUser} />
                   </Route>
+                  <Redirect to="/" />
                 </Switch>
               </React.Fragment>
             )}
@@ -121,30 +144,3 @@ class App extends Component {
 }
 
 export default App
-
-function updateUserProfileUrlIfRedirectedFromFacebook() {
-  firebase
-    .auth()
-    .getRedirectResult()
-    .then(async function(result) {
-      if (result.credential) {
-        const token = result.credential.accessToken
-        const user = result.user
-        const facebookUid = user.providerData[0].uid
-        const profileUrl = await axios
-          .get(
-            `https://graph.facebook.com/${facebookUid}?fields=link&access_token=${token}`
-          )
-          .then(res => res.data.link)
-        setUser(user.uid, {
-          profileURL: profileUrl
-        })
-      }
-    })
-    .catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code
-      var errorMessage = error.message
-      console.error(`${errorCode}: ${errorMessage}`)
-    })
-}

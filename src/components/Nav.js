@@ -9,7 +9,7 @@ import {
   faHome
 } from '@fortawesome/free-solid-svg-icons'
 
-import { StoreConsumer } from '../store'
+import { StoreConsumer, actions } from '../store'
 import Avatar from './Avatar'
 import { Toggle } from 'react-powerplug'
 import { createKeyframeAnimation } from './Friends/util'
@@ -32,9 +32,18 @@ const BelowDesktop = styled.div`
 `
 
 const NavLink = styled(UnStyledNavLink)`
-  &.active > svg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+
+  &.active {
     color: #007bff;
   }
+`
+
+const IconText = styled.div`
+  font-size: 10px;
 `
 
 const TabMenu = styled.div`
@@ -160,11 +169,6 @@ export const Nav = ({ onLogout }) => (
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link px-3 py-2 mx-2" to="/quests">
-                Quests
-              </NavLink>
-            </li>
-            <li className="nav-item">
               <NavLink className="nav-link px-3 py-2 mx-2" to="/friends">
                 Friends
               </NavLink>
@@ -212,19 +216,35 @@ export const Nav = ({ onLogout }) => (
             <div>
               <NavLink to="/dashboard">
                 <FontAwesomeIcon icon={faHome} style={{ fontSize: 18 }} />
+                <IconText>Dashbord</IconText>
               </NavLink>
               <NavLink to="/posts">
                 <FontAwesomeIcon icon={faChalkboard} />
-              </NavLink>
-              <NavLink to="/quests">
-                <FontAwesomeIcon icon={faQuestion} style={{ fontSize: 18 }} />
+                <IconText>Board</IconText>
               </NavLink>
               <NavLink to="/friends">
                 <FontAwesomeIcon
                   icon={faUserFriends}
                   style={{ fontSize: 17 }}
                 />
+                <IconText>Friends</IconText>
               </NavLink>
+              {/* <StoreConsumer>
+                {({ dispatch }) => (
+                  <a
+                    onClick={() => {
+                      dispatch(actions.forceRender())
+                      localStorage.removeItem('modalShown')
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faQuestion}
+                      style={{ fontSize: 17 }}
+                    />
+                    <IconText>Help</IconText>
+                  </a>
+                )}
+              </StoreConsumer> */}
             </div>
           </TabMenu>
           <TabMenuOffset />
