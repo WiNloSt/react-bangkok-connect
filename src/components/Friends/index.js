@@ -59,25 +59,13 @@ const Input = styled.input`
   }
 `
 
-const getNumber = keyCode => {
-  const isNumber = keyCode >= 48 && keyCode <= 57
-  if (isNumber) {
-    return keyCode - 48
-  }
-
-  const isNumPad = keyCode >= 96 && keyCode <= 105
-  if (isNumPad) {
-    return keyCode - 96
-  }
-}
-
 const createHandleKeyDown = (
   myUser,
   { setLoading, setErrorMessage, setSuccessMessage }
 ) => async e => {
-  e.preventDefault()
-  const isNumber =
-    (e.which >= 48 && e.which <= 57) || (e.which >= 96 && e.which <= 105)
+  const keyValue = e.target.value
+  // eslint-disable-next-line radix
+  const isNumber = parseInt(keyValue) >= 0 && parseInt(keyValue) <= 9
   const isBackspace = e.which === 8
   if (!isNumber && !isBackspace) {
     return
@@ -86,7 +74,7 @@ const createHandleKeyDown = (
   if (isNumber) {
     const currentElement = e.target
     const nextElement = e.target.nextElementSibling
-    currentElement.value = getNumber(e.which)
+    currentElement.value = keyValue
     if (nextElement) {
       nextElement.focus()
     } else {
@@ -163,7 +151,7 @@ const AddFriendSection = ({ className }) => (
                 </p>
                 <form ref={formRef}>
                   <Input
-                    onKeyDown={createHandleKeyDown(user, {
+                    onKeyUp={createHandleKeyDown(user, {
                       setLoading,
                       setErrorMessage,
                       setSuccessMessage
@@ -175,7 +163,7 @@ const AddFriendSection = ({ className }) => (
                     innerRef={c => (firstInputNode = c)}
                   />
                   <Input
-                    onKeyDown={createHandleKeyDown(user, {
+                    onKeyUp={createHandleKeyDown(user, {
                       setLoading,
                       setErrorMessage,
                       setSuccessMessage
@@ -186,7 +174,7 @@ const AddFriendSection = ({ className }) => (
                     inputmode="numeric"
                   />
                   <Input
-                    onKeyDown={createHandleKeyDown(user, {
+                    onKeyUp={createHandleKeyDown(user, {
                       setLoading,
                       setErrorMessage,
                       setSuccessMessage
@@ -197,7 +185,7 @@ const AddFriendSection = ({ className }) => (
                     inputmode="numeric"
                   />
                   <Input
-                    onKeyDown={createHandleKeyDown(user, {
+                    onKeyUp={createHandleKeyDown(user, {
                       setLoading,
                       setErrorMessage,
                       setSuccessMessage
