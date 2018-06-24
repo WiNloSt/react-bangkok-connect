@@ -14,6 +14,7 @@ import { ReactLoader } from './components/Loader'
 import { Nav } from './components/Nav'
 import { Login } from './components/Login'
 import { Instruction } from './components/Instruction'
+import LiveLeaderboard from './components/LiveLeaderboard'
 
 injectGlobal`
 html, body, #root {
@@ -132,6 +133,7 @@ class App extends Component {
                   <Route path="/friends">
                     <Friends user={this.state.authUser} />
                   </Route>
+                  <Route path="/liveleaderboard" component={LiveLeaderboard} />
                   <Redirect to="/" />
                 </Switch>
               </React.Fragment>

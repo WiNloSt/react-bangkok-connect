@@ -98,6 +98,55 @@ export const getPost = pid =>
       doc => (doc.exists ? Object.assign({ id: doc.id }, doc.data()) : null)
     )
 
+function getPoint(type) {
+  switch (type) {
+    case 'networking':
+      return 100
+    case 'bounty':
+      return 0
+    default:
+      return 0
+  }
+}
+
+export const getUserScores = () =>
+  firestore
+    .collection('achievements')
+    .get()
+    .then(snapshot => {
+      const users = new Map()
+      snapshot.forEach(doc => {
+        const achievement = doc.data()
+        if (!users.has(achievement.uid)) {
+          users.set(achievement.uid, getPoint(doc.data().type))
+        } else {
+          users.set(
+            achievement.uid,
+            users.get(achievement.uid) + getPoint(doc.data().type)
+          )
+        }
+      })
+
+      return users
+    })
+
+export const onGlobalAchievementsChanged = callback =>
+  firestore.collection(`achievements`).onSnapshot(snapshot => {
+    const users = new Map()
+    snapshot.forEach(doc => {
+      const achievement = doc.data()
+      if (!users.has(achievement.uid)) {
+        users.set(achievement.uid, getPoint(doc.data().type))
+      } else {
+        users.set(
+          achievement.uid,
+          users.get(achievement.uid) + getPoint(doc.data().type)
+        )
+      }
+    })
+    callback(users)
+  })
+
 export const createComment = (pid, comment) =>
   firestore.collection(`posts/${pid}/comments`).add({
     ...comment,
