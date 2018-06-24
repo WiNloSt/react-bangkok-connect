@@ -99,8 +99,14 @@ class PostDetail extends Component {
                     <CommentListItem
                       key={comment.id}
                       comment={comment}
+                      isRewardButtonDisplayed={
+                        !(
+                          (post.uid === authUser.uid &&
+                            comment.uid === authUser.uid) ||
+                          post.uid === comment.uid
+                        )
+                      }
                       isPostOwner={post.uid === authUser.uid}
-                      isCommentOwner={comment.uid === authUser.uid}
                       isRewarded={
                         participants.has(comment.uid)
                           ? participants.get(comment.uid).isRewarded
