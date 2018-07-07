@@ -112,6 +112,7 @@ class PostDetail extends Component {
                           ? participants.get(comment.uid).isRewarded
                           : false
                       }
+                      userId={authUser.uid}
                     />
                   ))
                 ) : (

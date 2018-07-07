@@ -7,6 +7,8 @@ import anonymousImage from '../reactbkk-logo.png'
 
 import Avatar from './Avatar'
 
+import { StoreConsumer } from '../store'
+
 const Link = styled(UnstyledLink)`
   color: inherit;
 
@@ -40,26 +42,32 @@ class PostListItem extends Component {
     const author = post.isAnonymous ? 'Anonymous' : post.author
 
     const content = (
-      <div className="d-flex p-3 mb-3 bg-dark rounded">
-        <div>
-          <div className="d-flex align-items-center">
-            <Avatar url={photoURL} size={avatarSize} />
-            <div className="ml-3">
-              {compact ? (
-                <HeaderLink>{post.title}</HeaderLink>
-              ) : (
-                <h4>{post.title}</h4>
-              )}
-              <span className="text-muted">by {author}</span>
-              {' - '}
-              <span className="text-muted">{postedAt}</span>
-              <span className="pl-3">{post.commentCount}</span>
+      <StoreConsumer>
+        {({ authUser }) => (
+          <div className="d-flex p-3 mb-3 bg-dark rounded">
+            <div>
+              <div className="d-flex align-items-center">
+                <Avatar url={photoURL} size={avatarSize} />
+                <div className="ml-3">
+                  {compact ? (
+                    <HeaderLink>{post.title}</HeaderLink>
+                  ) : (
+                    <h4>{post.title}</h4>
+                  )}
+                  <span className="text-muted">by {author} </span>
+                  {post.uid === authUser.uid &&
+                    post.isAnonymous && <span> me</span>}
+                  {' - '}
+                  <span className="text-muted">{postedAt}</span>
+                  <span className="pl-3">{post.commentCount}</span>
+                </div>
+              </div>
+
+              {compact || <p className="mt-3">{post.description}</p>}
             </div>
           </div>
-
-          {compact || <p className="mt-3">{post.description}</p>}
-        </div>
-      </div>
+        )}
+      </StoreConsumer>
     )
 
     return compact ? <Link to={`/posts/${post.id}`}>{content}</Link> : content
