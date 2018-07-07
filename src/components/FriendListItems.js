@@ -24,9 +24,10 @@ function FriendListItem(props) {
           <b>{friend.name}</b>
         </div>
         <FriendTags>
-          {['react', 'react-redux', 'recompose'].map((interest, index) => (
-            <FriendTag>{interest}</FriendTag>
-          ))}
+          {friend.tags &&
+            friend.tags.map((interest, index) => (
+              <FriendTag key={index}>{interest}</FriendTag>
+            ))}
         </FriendTags>
         <a
           className="btn btn-primary btn-sm"
