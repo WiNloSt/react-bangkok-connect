@@ -118,16 +118,16 @@ export const Instruction = () => {
 
         return (
           <Toggle initial={true}>
-            {({ on, setOn }) => (
+            {({ on, set }) => (
               <Value initial={0}>
-                {({ value: page, setValue }) => {
+                {({ value: page, set }) => {
                   const closeModal = () => {
                     localStorage.modalShown = true
-                    setOn(false)
+                    set(false)
                   }
 
                   const goToNextPage = e => {
-                    setValue(page + 1)
+                    set(page + 1)
                   }
                   const isLastPage = page === pages.length - 1
                   return (
