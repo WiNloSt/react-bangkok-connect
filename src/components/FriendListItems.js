@@ -9,6 +9,7 @@ const FriendTag = styled(Tag)`
 `
 
 const FriendTags = styled(Tags)`
+  justify-content: flex-start;
   margin-bottom: 0.5rem;
 `
 
