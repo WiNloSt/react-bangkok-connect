@@ -231,6 +231,7 @@ const Friends = () => (
                 Add Friends
               </button>
               <p>My friend code: {user.otp}</p>
+              {console.log('friends', friends)}
               {friends.map(friend => (
                 <FriendListItem friend={friend} key={friend.uid} />
               ))}

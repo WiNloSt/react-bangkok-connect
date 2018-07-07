@@ -1,9 +1,20 @@
 import React from 'react'
 
 import Avatar from './Avatar'
+import { Tags, Tag } from './Dashboard'
+import styled from 'styled-components'
+
+const FriendTag = styled(Tag)`
+  margin-left: 0;
+`
+
+const FriendTags = styled(Tags)`
+  margin-bottom: 0.5rem;
+`
 
 function FriendListItem(props) {
   const { friend } = props
+  console.log(friend)
   const avatarSize = 100
 
   return (
@@ -13,6 +24,12 @@ function FriendListItem(props) {
         <div className="mb-2">
           <b>{friend.name}</b>
         </div>
+        <FriendTags>
+          {friend.tags &&
+            friend.tags.map((interest, index) => (
+              <FriendTag key={index}>{interest}</FriendTag>
+            ))}
+        </FriendTags>
         <a
           className="btn btn-primary btn-sm"
           href={`https://www.facebook.com/search/str/${friend.name.toLowerCase()}/keywords_users`}
