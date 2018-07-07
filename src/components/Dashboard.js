@@ -26,6 +26,21 @@ const AchievementContainer = styled.div`
   }
 `
 
+export const Tags = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+`
+
+export const Tag = styled.div`
+  padding: 4px 12px;
+  background-color: #00d8ff;
+  margin: 0 5px 5px;
+  border-radius: 0.2rem;
+  font-size: 80%;
+`
+
 function Dashboard(props) {
   const avatarSize = 120
 
@@ -46,8 +61,12 @@ function Dashboard(props) {
                 url={authUser.photoURL}
                 size={avatarSize}
               />
-              <Name className="py-4">{authUser.displayName}</Name>
-
+              <Name className="py-3">{authUser.displayName}</Name>
+              <Tags>
+                {['react', 'react-redux', 'recompose'].map(
+                  (interest, index) => <Tag>{interest}</Tag>
+                )}
+              </Tags>
               <Point className="pb-4">
                 <h3>
                   <i className="fas fa-star" /> {calculatePoint(achievements)}
