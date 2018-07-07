@@ -63,7 +63,7 @@ function Dashboard(props) {
               />
               <Name className="py-3">{authUser.displayName}</Name>
               <Tags>
-                {['react', 'react-redux', 'recompose'].map(
+                {['react', 'react-redux', '+ interest'].map(
                   (interest, index) => <Tag>{interest}</Tag>
                 )}
               </Tags>
