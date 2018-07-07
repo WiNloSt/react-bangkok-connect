@@ -14,6 +14,7 @@ const FriendTags = styled(Tags)`
 
 function FriendListItem(props) {
   const { friend } = props
+  console.log(friend)
   const avatarSize = 100
 
   return (
