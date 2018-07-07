@@ -47,7 +47,8 @@ class CommentListItem extends Component {
       comment,
       isRewarded,
       isRewardButtonDisplayed,
-      isPostOwner
+      isPostOwner,
+      userId
     } = this.props
 
     const author = comment.isAnonymous ? 'Anonymous' : comment.author
@@ -67,6 +68,8 @@ class CommentListItem extends Component {
             <Body>{comment.body}</Body>
             <div>
               <span className="text-muted">by {author}</span>
+              {comment.uid === userId &&
+                comment.isAnonymous && <span> me</span>}
               {' - '}
               <span className="text-muted">{commentedAt}</span>
             </div>
