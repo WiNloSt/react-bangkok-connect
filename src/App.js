@@ -132,7 +132,6 @@ class App extends Component {
                     path="/"
                     render={() => (
                       <React.Fragment>
-                        <Instruction />
                         <Nav onLogout={this.logout} />
                         <Switch>
                           <Redirect from="/" exact to="/dashboard" />
