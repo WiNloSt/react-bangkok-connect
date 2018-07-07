@@ -8,15 +8,21 @@ class CommentForm extends Component {
     isSubmitting: false,
     wasValidated: false,
     comment: {
-      body: ''
+      body: '',
+      isAnonymous: false
     }
   }
 
   handleChange = event => {
+    const value =
+      event.target.type === 'checkbox'
+        ? event.target.checked
+        : event.target.value
+
     this.setState({
       comment: {
         ...this.state.comment,
-        [event.target.name]: event.target.value
+        [event.target.name]: value
       }
     })
   }
@@ -52,7 +58,8 @@ class CommentForm extends Component {
             wasValidated: false,
             isSubmitting: false,
             comment: {
-              body: ''
+              body: '',
+              isAnonymous: false
             }
           })
 
@@ -60,7 +67,8 @@ class CommentForm extends Component {
           createParticipant(this.props.postID, {
             uid: user.uid,
             name: user.displayName,
-            photoURL: user.photoURL
+            photoURL: user.photoURL,
+            isAnonymous: this.state.comment.isAnonymous
           })
         }
       } catch (error) {
@@ -100,6 +108,20 @@ class CommentForm extends Component {
           placeholder="Write a comment ..."
           required
         />
+        <div className="form-group">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              name="isAnonymous"
+              type="checkbox"
+              onChange={this.handleChange}
+              value={comment.isAnonymous}
+            />
+            <label className="form-check-label" htmlFor="isAnonymous">
+              Is Anonymous
+            </label>
+          </div>
+        </div>
         <button
           type="submit"
           className="btn btn-primary"

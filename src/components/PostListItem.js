@@ -3,6 +3,8 @@ import { Link as UnstyledLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { DateTime } from 'luxon'
 
+import anonymousImage from '../reactbkk-logo.png'
+
 import Avatar from './Avatar'
 
 const Link = styled(UnstyledLink)`
@@ -34,18 +36,21 @@ class PostListItem extends Component {
       post.createdAt &&
       DateTime.fromJSDate(post.createdAt.toDate()).toFormat('ff')
 
+    const photoURL = post.isAnonymous ? anonymousImage : post.photoURL
+    const author = post.isAnonymous ? 'Anonymous' : post.author
+
     const content = (
       <div className="d-flex p-3 mb-3 bg-dark rounded">
         <div>
           <div className="d-flex align-items-center">
-            <Avatar url={post.photoURL} size={avatarSize} />
+            <Avatar url={photoURL} size={avatarSize} />
             <div className="ml-3">
               {compact ? (
                 <HeaderLink>{post.title}</HeaderLink>
               ) : (
                 <h4>{post.title}</h4>
               )}
-              <span className="text-muted">by {post.author}</span>
+              <span className="text-muted">by {author}</span>
               {' - '}
               <span className="text-muted">{postedAt}</span>
               <span className="pl-3">{post.commentCount}</span>
