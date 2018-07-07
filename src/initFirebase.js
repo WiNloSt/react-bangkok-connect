@@ -4,11 +4,11 @@ import 'firebase/firestore'
 
 // Initialize Firebase
 const config = {
-  apiKey: 'AIzaSyC1PQGh5JGgJtpmt1-dZKY7XPQgR12Xb6w',
-  authDomain: 'reactbkk-connect.firebaseapp.com',
-  databaseURL: 'https://reactbkk-connect.firebaseio.com',
-  projectId: 'reactbkk-connect',
-  storageBucket: 'reactbkk-connect.appspot.com',
-  messagingSenderId: '946641983889'
+  apiKey: 'AIzaSyBk5gQ0339d8qYUneid1Z2x_mxD2lqeTfE',
+  authDomain: 'connect-88317.firebaseapp.com',
+  databaseURL: 'https://connect-88317.firebaseio.com',
+  projectId: 'connect-88317',
+  storageBucket: 'connect-88317.appspot.com',
+  messagingSenderId: '934647139758'
 }
 firebase.initializeApp(config)
