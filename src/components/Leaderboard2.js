@@ -23,14 +23,10 @@ class Leaderboard extends Component {
   }
 
   fetchUserScores = async () => {
-    const exceptions = new Set()
-    exceptions.add('cWXmcSHph7UrpbGFlydiVDXBty42')
-
     const users = await getUserScores()
     const topTen = await Promise.all(
       [...users]
         .sort((a, b) => (a[1] > b[1] ? -1 : 1))
-        .filter(a => !exceptions.has(a[0]))
         .slice(0, 10)
         .map(async a => {
           let user = await getUser(a[0])
