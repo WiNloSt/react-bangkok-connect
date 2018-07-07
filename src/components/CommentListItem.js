@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import anonymousImage from '../reactbkk-logo.png'
 
 import { rewardParticipant } from '../data'
 import { debounce } from '../libs'
@@ -48,6 +49,10 @@ class CommentListItem extends Component {
       isRewardButtonDisplayed,
       isPostOwner
     } = this.props
+
+    const author = comment.isAnonymous ? 'Anonymous' : comment.author
+    const photoUrl = comment.isAnonymous ? anonymousImage : comment.photoURL
+
     const { isSubmitting } = this.state
     const avatarSize = 60
     const commentedAt =
@@ -57,11 +62,11 @@ class CommentListItem extends Component {
     return (
       <div className="bg-dark p-3 mb-3">
         <div className="d-flex">
-          <Avatar url={comment.photoURL} size={avatarSize} />
+          <Avatar url={photoUrl} size={avatarSize} />
           <div className="ml-3 d-flex-column">
             <Body>{comment.body}</Body>
             <div>
-              <span className="text-muted">by {comment.author}</span>
+              <span className="text-muted">by {author}</span>
               {' - '}
               <span className="text-muted">{commentedAt}</span>
             </div>
