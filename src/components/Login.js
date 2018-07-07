@@ -15,7 +15,7 @@ const Title = styled.h1`
 export const Login = () => (
   <React.Fragment>
     <Logo src={logo} />
-    <Title className="py-5">React Bangkok Connect</Title>
+    <Title className="py-5">Connect</Title>
     <div>
       <p>Please login to continue</p>
       <FacebookLoginButton />
