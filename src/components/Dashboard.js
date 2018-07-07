@@ -109,7 +109,7 @@ class Dashboard extends React.Component {
                               type="button"
                               onClick={() => {
                                 setUser(user.uid, {
-                                  tags: [...user.tags, value]
+                                  tags: [...(user.tags ? user.tags : []), value]
                                 })
                                 set('')
                               }}
