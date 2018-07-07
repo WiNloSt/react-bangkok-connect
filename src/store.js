@@ -1,6 +1,12 @@
 import React from 'react'
 import * as R from 'ramda'
-import { onUserChanged, onFriendsChanged, onAchievementsChanged } from './data'
+import {
+  onUserChanged,
+  onFriendsChanged,
+  onAchievementsChanged,
+  onGlobalAchievementsChanged,
+  getUser
+} from './data'
 
 const context = React.createContext()
 
@@ -18,7 +24,8 @@ export class StoreProvider extends React.Component {
   state = {
     user: {},
     friends: [],
-    achievements: []
+    achievements: [],
+    topTen: []
   }
 
   unsubscribeList = []
@@ -47,6 +54,31 @@ export class StoreProvider extends React.Component {
           this.setState({ achievements })
         )
       )
+      this.unsubscribeList.push(
+        onGlobalAchievementsChanged(async users => {
+          const exceptions = new Set()
+          exceptions.add('cWXmcSHph7UrpbGFlydiVDXBty42')
+
+          const topTen = await Promise.all(
+            [...users]
+              .sort((a, b) => (a[1] > b[1] ? -1 : 1))
+              .filter(a => !exceptions.has(a[0]))
+              .slice(0, 10)
+              .map(async a => {
+                let user = await getUser(a[0])
+                user = {
+                  ...user,
+                  score: a[1]
+                }
+                return user
+              })
+          )
+
+          this.setState({
+            topTen
+          })
+        })
+      )
     }
   }
 
@@ -61,6 +93,27 @@ export class StoreProvider extends React.Component {
         onAchievementsChanged(uid, achievements =>
           this.setState({ achievements })
         )
+      )
+      this.unsubscribeList.push(
+        onGlobalAchievementsChanged(async users => {
+          const topTen = await Promise.all(
+            [...users]
+              .sort((a, b) => (a[1] > b[1] ? -1 : 1))
+              .slice(0, 10)
+              .map(async a => {
+                let user = await getUser(a[0])
+                user = {
+                  ...user,
+                  score: a[1]
+                }
+                return user
+              })
+          )
+
+          this.setState({
+            topTen
+          })
+        })
       )
     }
 

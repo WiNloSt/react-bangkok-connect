@@ -14,6 +14,9 @@ import { ReactLoader } from './components/Loader'
 import { Nav } from './components/Nav'
 import { Login } from './components/Login'
 import { Instruction } from './components/Instruction'
+import LiveLeaderboard from './components/LiveLeaderboard'
+import Leaderboard from './components/Leaderboard'
+import Leaderboard2 from './components/Leaderboard2'
 
 injectGlobal`
 html, body, #root {
@@ -121,18 +124,30 @@ class App extends Component {
               </Center>
             ) : (
               <React.Fragment>
-                <Instruction />
-                <Nav onLogout={this.logout} />
                 <Switch>
-                  <Redirect from="/" exact to="/dashboard" />
-                  <Route path="/posts" component={Board} />
-                  <Route path="/dashboard">
-                    <Dashboard user={this.state.authUser} />
-                  </Route>
-                  <Route path="/friends">
-                    <Friends user={this.state.authUser} />
-                  </Route>
-                  <Redirect to="/" />
+                  <Route path="/liveleaderboard" component={LiveLeaderboard} />
+                  <Route path="/leaderboard" component={Leaderboard} />
+                  <Route path="/leaderboard2" component={Leaderboard2} />
+                  <Route
+                    path="/"
+                    render={() => (
+                      <React.Fragment>
+                        <Instruction />
+                        <Nav onLogout={this.logout} />
+                        <Switch>
+                          <Redirect from="/" exact to="/dashboard" />
+                          <Route path="/posts" component={Board} />
+                          <Route path="/dashboard">
+                            <Dashboard user={this.state.authUser} />
+                          </Route>
+                          <Route path="/friends">
+                            <Friends user={this.state.authUser} />
+                          </Route>
+                          <Redirect to="/" />
+                        </Switch>
+                      </React.Fragment>
+                    )}
+                  />
                 </Switch>
               </React.Fragment>
             )}

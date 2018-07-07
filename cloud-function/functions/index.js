@@ -5,6 +5,7 @@ const functions = require('firebase-functions')
 admin.initializeApp(functions.config().firebase)
 
 const firestore = admin.firestore()
+const FieldValue = admin.firestore.FieldValue
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
@@ -18,7 +19,8 @@ exports.createFriendAcheivement = functions.firestore
     firestore.collection('achievements').add({
       type: 'networking',
       uid: context.params.userID,
-      fid: context.params.friendID
+      fid: context.params.friendID,
+      createdAt: FieldValue.serverTimestamp()
     })
   }))
 
@@ -33,7 +35,8 @@ exports.createBountyAchievement = functions.firestore
         firestore.collection('achievements').add({
           type: 'bounty',
           uid: context.params.participantID,
-          pid: context.params.postID
+          pid: context.params.postID,
+          createdAt: FieldValue.serverTimestamp()
         })
       } else {
         firestore.collection('achievements')
@@ -48,3 +51,40 @@ exports.createBountyAchievement = functions.firestore
       }
     }
   })
+
+function getPoint(type) {
+  switch (type) {
+    case "networking":
+      return 100
+    case "bounty":
+      return 400
+    default:
+      return 0
+  }
+}
+
+// exports.getLeaderboard = functions.https.onRequest((req, res) => {
+//   switch (req.method) {
+//     case 'POST':
+//       break;
+//     default:
+//       return 
+//   }
+//   return firestore
+//     .collection('achievements')
+//     .get()
+//     .then(snapshot => {
+//       const users = new Map()
+//       snapshot.forEach(doc => {
+//           const achievement = doc.data()
+//           if (!users.has(achievement.uid)) {
+//             users.set(achievement.uid, getPoint(doc.data().type))
+//           } else {
+//             users.set(achievement.uid, users.get(achievement.uid) + getPoint(doc.data().type))
+//           }
+//       })
+
+//       const topTen = [...users].map(user => [user.key, user.value])
+      
+//     })
+// })
