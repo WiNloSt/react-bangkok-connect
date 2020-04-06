@@ -8,16 +8,22 @@ class PostForm extends Component {
     post: {
       title: '',
       description: '',
-      tag: 'question'
+      tag: 'question',
+      isAnonymous: false
     }
   }
 
   handleInputChanged = event => {
+    const value =
+      event.target.type === 'checkbox'
+        ? event.target.checked
+        : event.target.value
+
     this.setState({
       ...this.state,
       post: {
         ...this.state.post,
-        [event.target.name]: event.target.value
+        [event.target.name]: value
       }
     })
   }
@@ -63,6 +69,20 @@ class PostForm extends Component {
           rows={5}
           required
         />
+        <div className="form-group">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              name="isAnonymous"
+              type="checkbox"
+              onChange={this.handleInputChanged}
+              value={post.isAnonymous}
+            />
+            <label className="form-check-label" htmlFor="isAnonymous">
+              Is Anonymous
+            </label>
+          </div>
+        </div>
         <button type="submit" className="btn btn-primary">
           Submit
         </button>

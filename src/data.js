@@ -3,7 +3,18 @@ import firebase from 'firebase/app'
 const firestore = firebase.firestore()
 firestore.settings({ timestampsInSnapshots: true })
 
-const returnDocOrNull = doc => (doc.exists ? doc.data() : null)
+const returnDocOrNull = doc => {
+  if (doc.exists) {
+    const data = doc.data()
+    const isRef = data.ref
+    if (isRef) {
+      return returnDocOrNull(data.ref.get())
+    }
+
+    return data
+  }
+  return null
+}
 
 function getDataFromSnapshotQuery(snapshot) {
   return snapshot.docs.map(doc => Object.assign({ id: doc.id }, doc.data()))
@@ -49,23 +60,37 @@ export const getFriends = uid =>
   firestore
     .collection(`users/${uid}/friends`)
     .get()
-    .then(
-      snapshot => (snapshot.empty ? null : getDataFromSnapshotQuery(snapshot))
-    )
+    .then(snapshot => {
+      const friends = []
+      snapshot.forEach(doc => {
+        return doc
+          .data()
+          .ref.get()
+          .then(returnDocOrNull)
+      })
+
+      return friends
+    })
 
 export const onFriendsChanged = (uid, callback) =>
   firestore.collection(`users/${uid}/friends`).onSnapshot(snapshot => {
-    let friends = []
+    const friendsPromise = []
     snapshot.forEach(doc => {
-      friends.push(doc.data())
+      const friendPromise = doc
+        .data()
+        .ref.get()
+        .then(returnDocOrNull)
+      friendsPromise.push(friendPromise)
     })
-    callback(friends)
+
+    Promise.all(friendsPromise).then(friends => callback(friends))
   })
 
 export const setFriend = (uid, friend) => {
+  const friendRef = firestore.doc(`users/${friend.uid}`)
   firestore
     .doc(`users/${uid}/friends/${friend.uid}`)
-    .set(friend, { merge: true })
+    .set({ ref: friendRef }, { merge: true })
 }
 
 export const createPost = post =>
